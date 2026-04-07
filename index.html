@@ -737,6 +737,7 @@ const SUPABASE_URL = 'https://cnygijmypuaeguxrwwjc.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNueWdpam15cHVhZWd1eHJ3d2pjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzODQ4MDAsImV4cCI6MjA4OTk2MDgwMH0.q_Z8WoT9wzDzkdMHUQwA0DBL0HI5VuvWvt11hM4SqeY';
 const STORAGE_BUCKET = 'project-files';
 const PROJECT_PREFIX = 'ME401';
+const PROJECT_ID = 'aee8a0e4-d4e6-4c11-8f4d-bdd40c150133';
 
 const { createClient } = supabase;
 const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -863,7 +864,7 @@ async function handleSupabaseUpload(input, category) {
 
     // Insert document record
     const { error: dbErr } = await sb.from('documents').insert({
-      project_id: null, // Will be set if projects table is seeded
+      project_id: PROJECT_ID, // Will be set if projects table is seeded
       category: category,
       file_name: file.name,
       file_path: filePath,
@@ -894,7 +895,7 @@ async function handleQuoteUpload(input, pkgId) {
   if (error) { showToast('Upload failed: ' + error.message, 'error'); return; }
 
   await sb.from('documents').insert({
-    project_id: null,
+    project_id: PROJECT_ID,
     category: 'quotes',
     subcategory: pkgId,
     file_name: file.name,
@@ -986,7 +987,7 @@ async function handlePricingUpload(files) {
     if (error) { showToast('Upload failed: ' + error.message, 'error'); if (progressWrap) { progressWrap.style.display = 'none'; } continue; }
 
     await sb.from('documents').insert({
-      project_id: null, category: 'quotes', subcategory: pkg.split(':')[0].trim(),
+      project_id: PROJECT_ID, category: 'quotes', subcategory: pkg.split(':')[0].trim(),
       file_name: file.name, file_path: filePath, file_size: file.size,
       file_type: file.name.split('.').pop().toLowerCase(),
       description: pkg + ' - ' + file.name, status: 'active'
