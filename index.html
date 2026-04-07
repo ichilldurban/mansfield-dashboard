@@ -396,9 +396,51 @@ footer { text-align: center; padding: 20px; font-size: 0.64rem; color: var(--mut
 <!-- ===================== FINANCIAL SUMMARY / BUILD BREAKDOWN ===================== -->
 <div class="panel active" id="panel-summary">
   <div class="card">
-    <div class="card-h"><h2>Project Financial Summary</h2><span class="badge b-gold">TBC &#8212; Pending Phase 1 Estimate</span></div>
-    <div class="card-b" style="padding:20px;text-align:center">
-      <p style="font-size:0.88rem;color:var(--muted);padding:40px 0">Financial data will be populated once Phase 1 estimates are finalised.</p>
+    <div class="card-h"><h2>Project Financial Summary</h2><span class="badge b-gold">April 2026 Budget</span></div>
+    <div class="card-b" style="padding:0;overflow-x:auto;-webkit-overflow-scrolling:touch">
+      <table class="summary-table">
+        <thead>
+          <tr><th style="padding-left:10px;min-width:200px">Description</th><th class="r">Phase 1</th><th class="r">Phase 2</th><th class="r">Overall</th></tr>
+        </thead>
+        <tbody>
+          <tr class="section-header"><td colspan="4" style="padding-left:20px">Stream 1 &#8212; White Box (Main Contract)</td></tr>
+          <tr><td class="desc-cell">Preliminaries &amp; General</td><td class="r">R 650,000</td><td class="r">R 300,000</td><td class="r">R 950,000</td></tr>
+          <tr><td class="desc-cell">Earthworks</td><td class="r">R 137,175</td><td class="r" style="color:var(--muted)">&#8212;</td><td class="r">R 137,175</td></tr>
+          <tr><td class="desc-cell">Concrete, Formwork &amp; Reinforcement</td><td class="r">R 1,181,310</td><td class="r" style="color:var(--muted)">&#8212;</td><td class="r">R 1,181,310</td></tr>
+          <tr><td class="desc-cell">Masonry</td><td class="r">R 359,976</td><td class="r">R 39,662</td><td class="r">R 399,638</td></tr>
+          <tr><td class="desc-cell">Waterproofing</td><td class="r">R 168,210</td><td class="r">R 9,920</td><td class="r">R 178,130</td></tr>
+          <tr><td class="desc-cell">Roof Coverings</td><td class="r">R 158,200</td><td class="r" style="color:var(--muted)">&#8212;</td><td class="r">R 158,200</td></tr>
+          <tr><td class="desc-cell">Carpentry &amp; Joinery</td><td class="r">R 18,550</td><td class="r">R 43,675</td><td class="r">R 62,225</td></tr>
+          <tr><td class="desc-cell">Structural Steelwork</td><td class="r">R 858,215</td><td class="r">R 82,350</td><td class="r">R 940,565</td></tr>
+          <tr><td class="desc-cell">Metalwork (Aluminium)</td><td class="r">R 1,127,500</td><td class="r">R 119,000</td><td class="r">R 1,246,500</td></tr>
+          <tr><td class="desc-cell">Plastering</td><td class="r">R 168,210</td><td class="r">R 45,030</td><td class="r">R 213,240</td></tr>
+          <tr><td class="desc-cell">Provisional Sums (WB)</td><td class="r">R 621,500</td><td class="r" style="color:var(--muted)">&#8212;</td><td class="r">R 621,500</td></tr>
+          <tr><td class="desc-cell">External Works</td><td class="r">R 194,323</td><td class="r" style="color:var(--muted)">&#8212;</td><td class="r">R 194,323</td></tr>
+          <tr class="subtotal"><td style="padding-left:20px;font-weight:700">White Box Total (ex VAT)</td><td class="r" style="font-weight:700">R 5,588,569</td><td class="r" style="font-weight:700">&#8212;</td><td class="r" style="font-weight:700">&#8212;</td></tr>
+          <tr class="spacer"><td colspan="4"></td></tr>
+          <tr class="section-header"><td colspan="4" style="padding-left:20px">Stream 2 &#8212; Other &amp; Direct Packages</td></tr>
+          <tr><td class="desc-cell">P&amp;G (Other Packages)</td><td class="r">R 100,000</td><td class="r" style="color:var(--muted)">&#8212;</td><td class="r">R 100,000</td></tr>
+          <tr><td class="desc-cell">Carpentry &amp; Joinery</td><td class="r">R 67,500</td><td class="r" style="color:var(--muted)">&#8212;</td><td class="r">R 67,500</td></tr>
+          <tr><td class="desc-cell">Ceilings</td><td class="r">R 420,410</td><td class="r">R 50,945</td><td class="r">R 471,355</td></tr>
+          <tr><td class="desc-cell">Floor Coverings</td><td class="r">R 39,200</td><td class="r" style="color:var(--muted)">&#8212;</td><td class="r">R 39,200</td></tr>
+          <tr><td class="desc-cell">Plastering</td><td class="r">R 46,665</td><td class="r" style="color:var(--muted)">&#8212;</td><td class="r">R 46,665</td></tr>
+          <tr><td class="desc-cell">Tiling</td><td class="r">R 188,550</td><td class="r">R 80,250</td><td class="r">R 268,800</td></tr>
+          <tr><td class="desc-cell">Plumbing &amp; Drainage</td><td class="r">R 164,180</td><td class="r">R 60,000</td><td class="r">R 224,180</td></tr>
+          <tr><td class="desc-cell">Paintwork</td><td class="r">R 97,890</td><td class="r">R 26,080</td><td class="r">R 123,970</td></tr>
+          <tr><td class="desc-cell">Provisional Sums (Direct)</td><td class="r">R 1,366,750</td><td class="r">R 910,250</td><td class="r">R 2,277,000</td></tr>
+          <tr class="subtotal"><td style="padding-left:20px;font-weight:700">Other Packages Total (ex VAT)</td><td class="r" style="font-weight:700">R 2,491,145</td><td class="r" style="font-weight:700">&#8212;</td><td class="r" style="font-weight:700">&#8212;</td></tr>
+          <tr class="spacer"><td colspan="4"></td></tr>
+          <tr class="grand-total"><td style="padding-left:20px;font-weight:800">PHASE 1 TOTAL (ex VAT)</td><td class="r" style="font-weight:800">R 8,079,714</td><td class="r" style="color:var(--muted)">&#8212;</td><td class="r" style="color:var(--muted)">&#8212;</td></tr>
+          <tr><td class="desc-cell">Phase 2 (deferred)</td><td class="r" style="color:var(--muted)">&#8212;</td><td class="r">R 1,767,162</td><td class="r">R 1,767,162</td></tr>
+          <tr class="spacer"><td colspan="4"></td></tr>
+          <tr class="grand-total"><td style="padding-left:20px;font-size:0.92rem;font-weight:900">NEW OVERALL TOTAL (ex VAT)</td><td class="r" colspan="2"></td><td class="r" style="font-size:0.92rem">R 9,846,876</td></tr>
+          <tr><td class="desc-cell">VAT @ 15%</td><td class="r" colspan="2"></td><td class="r">R 1,477,031</td></tr>
+          <tr class="grand-total"><td style="padding-left:20px;font-size:0.92rem;font-weight:900">TOTAL PROJECT (incl. VAT)</td><td class="r" colspan="2"></td><td class="r" style="font-size:0.92rem">R 11,323,907</td></tr>
+          <tr class="spacer"><td colspan="4"></td></tr>
+          <tr><td class="desc-cell" style="color:var(--muted)">Old Overall Baseline (Dec 2025)</td><td class="r" colspan="2" style="color:var(--muted)"></td><td class="r" style="color:var(--muted)">R 9,291,688</td></tr>
+          <tr><td class="desc-cell" style="color:var(--red)">Variance (increase)</td><td class="r" colspan="2" style="color:var(--red)"></td><td class="r" style="color:var(--red)">R 555,188 (6.0%)</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
@@ -411,21 +453,21 @@ footer { text-align: center; padding: 20px; font-size: 0.64rem; color: var(--mut
 <!-- ===================== REVISED VS ORIGINAL ===================== -->
 <div class="panel" id="panel-revised">
   <div class="mg" style="grid-template-columns:repeat(4,1fr)">
-    <div class="m indigo"><div class="m-label">Original Total (ex VAT)</div><div class="m-value">TBC</div><div class="m-sub">Pending estimate</div></div>
-    <div class="m green"><div class="m-label">Revised Total (ex VAT)</div><div class="m-value" id="revisedTotalCard">TBC</div><div class="m-sub">Pending</div></div>
-    <div class="m gold"><div class="m-label">Total Saving (ex VAT)</div><div class="m-value" id="totalSavingCard">TBC</div><div class="m-sub">Pending</div></div>
-    <div class="m purple"><div class="m-label">% Reduction</div><div class="m-value" id="pctReductionCard">TBC</div><div class="m-sub">On total ex VAT</div></div>
+    <div class="m indigo"><div class="m-label">Old Overall (ex VAT)</div><div class="m-value">R 9,291,688</div><div class="m-sub">Dec 2025 baseline</div></div>
+    <div class="m green"><div class="m-label">New Overall (ex VAT)</div><div class="m-value" id="revisedTotalCard" style="color:var(--red)">R 9,846,876</div><div class="m-sub">April 2026</div></div>
+    <div class="m gold"><div class="m-label">Phase 1 Total (ex VAT)</div><div class="m-value" id="totalSavingCard" style="color:#8b6914">R 8,079,714</div><div class="m-sub">WB R5.59M + Other R2.49M</div></div>
+    <div class="m purple"><div class="m-label">Phase 2 (Deferred)</div><div class="m-value" id="pctReductionCard">R 1,767,162</div><div class="m-sub">Excl. VAT</div></div>
   </div>
   <div class="card">
     <div class="card-h">
       <h2>Original vs Revised &#8212; Full BOQ Line Items</h2>
       <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
         <select id="revBillFilter" onchange="renderRevised()" style="padding:7px 12px;border:1px solid var(--border-b);border-radius:4px;font-size:0.76rem;background:#fff;color:var(--text);font-family:inherit;outline:none">
-          <option value="all">All Bills</option>
-          <option value="01">Bill 01 &#8212; Preliminaries</option>
-          <option value="1">Bill 1 &#8212; Alterations</option><option value="2">Bill 2 &#8212; Earthworks</option><option value="3">Bill 3 &#8212; Concrete &amp; Formwork</option><option value="4">Bill 4 &#8212; Masonry</option><option value="5">Bill 5 &#8212; Waterproofing</option><option value="6">Bill 6 &#8212; Carpentry &amp; Joinery</option><option value="7">Bill 7 &#8212; Ceilings &amp; Partitions</option><option value="8">Bill 8 &#8212; Floor Coverings</option><option value="9">Bill 9 &#8212; Plastering</option><option value="10">Bill 10 &#8212; Tiling</option><option value="11">Bill 11 &#8212; Plumbing &amp; Drainage</option><option value="12">Bill 12 &#8212; Paintwork</option><option value="13">Bill 13 &#8212; Subcontract Packages</option><option value="14">Bill 14 &#8212; Provisional Sums</option><option value="EW">External Works</option>
+          <option value="all">All Trades</option>
+          <option value="PG">Preliminaries &amp; General</option>
+          <option value="B1">Earthworks</option><option value="B2">Concrete &amp; Formwork</option><option value="B3">Masonry</option><option value="B4">Waterproofing</option><option value="B5">Roof Coverings</option><option value="B6">Carpentry &amp; Joinery</option><option value="B7">Ceilings</option><option value="B8">Floor Coverings</option><option value="B9">Structural Steelwork</option><option value="B10">Metalwork (Aluminium)</option><option value="B11">Plastering</option><option value="B12">Tiling</option><option value="B13">Plumbing &amp; Drainage</option><option value="B14">Paintwork</option><option value="PS">Provisional Sums</option><option value="EW">External Works</option>
         </select>
-        <span class="badge b-green">Auto-populated from 24 Mar 2026 BOQ</span>
+        <span class="badge b-green">Old Phase 1 vs Revised Phase 1 (April 2026)</span>
         <span id="revChangedCount" style="font-size:0.72rem;color:var(--muted)"></span>
       </div>
     </div>
@@ -456,9 +498,9 @@ footer { text-align: center; padding: 20px; font-size: 0.64rem; color: var(--mut
 <!-- ===================== SUBCONTRACTORS ===================== -->
 <div class="panel" id="panel-subcon">
   <div class="mg" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr))">
-    <div class="m indigo"><div class="m-label">Total Subcontract</div><div class="m-value">TBC</div><div class="m-sub">Pending contractor finalisation</div></div>
-    <div class="m green"><div class="m-label">Packages Quoted</div><div class="m-value" style="color:var(--green)">0</div><div class="m-sub">Pending</div></div>
-    <div class="m gold"><div class="m-label">Largest Package</div><div class="m-value" style="color:#8b6914">TBC</div><div class="m-sub">Pending</div></div>
+    <div class="m indigo"><div class="m-label">Direct Packages (Phase 1)</div><div class="m-value">R 2,491,145</div><div class="m-sub">22 packages identified</div></div>
+    <div class="m green"><div class="m-label">Selected Subs (via MC)</div><div class="m-value" style="color:var(--green)">4</div><div class="m-sub">Piling, Steel, Aluminium, Balustrades</div></div>
+    <div class="m gold"><div class="m-label">Largest Trade</div><div class="m-value" style="color:#8b6914">R 1,127,500</div><div class="m-sub">Aluminium Windows &amp; Doors</div></div>
   </div>
   <div class="card">
     <div class="card-h"><h2>Current Subcontractor Pricing</h2><span class="badge b-gold">Prices under review &#8212; not yet confirmed</span></div>
@@ -1001,16 +1043,36 @@ async function handlePricingUpload(files) {
 // ========================================================================
 // FINANCIAL DATA
 // ========================================================================
-// ME 401 House Mansfield — TBC: update from Phase 1 estimate
-const bills = [];
-const totalExVat = 0, markup = 0, inclMarkup = 0, vat = 0, inclVat = 0;
-const origTotalExVat = 0, revTotalExVat = 0;
+// ME 401 House Mansfield — Phase 1 Budget (April 2026)
+const bills = [
+  {id:'PG',name:'Preliminaries & General',amt:920000,color:'#4a5568'},
+  {id:'B1',name:'Earthworks',amt:137175,color:'#7c3aed'},
+  {id:'B2',name:'Concrete, Formwork & Reinforcement',amt:1181310,color:'#0891b2'},
+  {id:'B3',name:'Masonry',amt:359976,color:'#0ea5e9'},
+  {id:'B4',name:'Waterproofing',amt:168210,color:'#06b6d4'},
+  {id:'B5',name:'Roof Coverings',amt:158200,color:'#16a34a'},
+  {id:'B6',name:'Carpentry & Joinery',amt:86050,color:'#22c55e'},
+  {id:'B7',name:'Ceilings',amt:420410,color:'#65a30d'},
+  {id:'B8',name:'Floor Coverings',amt:39200,color:'#c8a84e'},
+  {id:'B9',name:'Structural Steelwork',amt:858215,color:'#d97706'},
+  {id:'B10',name:'Metalwork (Aluminium)',amt:1127500,color:'#ea580c'},
+  {id:'B11',name:'Plastering',amt:214875,color:'#dc2626'},
+  {id:'B12',name:'Tiling',amt:188550,color:'#b91c1c'},
+  {id:'B13',name:'Plumbing & Drainage',amt:164180,color:'#9333ea'},
+  {id:'B14',name:'Paintwork',amt:97890,color:'#6d28d9'},
+  {id:'PS',name:'Provisional Sums',amt:1988250,color:'#64748b'},
+  {id:'EW',name:'External Works',amt:194323,color:'#334155'}
+];
+// Phase 1 totals
+const totalExVat = 8079714, markup = 0, inclMarkup = 8079714, vat = 1211957, inclVat = 9291671;
+// Old vs New comparison
+const origTotalExVat = 9291688, revTotalExVat = 9846876;
 const origMarkup = 0, revMarkup = 0;
-const origInclMarkup = 0, revInclMarkup = 0;
-const origVat = 0, revVat = 0;
-const origInclVat = 0, revInclVat = 0;
-const totalSavingExVat = 0, totalSavingInclVat = 0;
-const pctSavingExVat = "0%";
+const origInclMarkup = 9291688, revInclMarkup = 9846876;
+const origVat = 1393753, revVat = 1477031;
+const origInclVat = 10685441, revInclVat = 11323907;
+const totalSavingExVat = -555188, totalSavingInclVat = -638466;
+const pctSavingExVat = "+6.0%";
 
 function R(n) { return 'R ' + Math.round(n).toLocaleString('en-ZA'); }
 function Rf(n) { if (n == null || n === 0) return '\u2014'; return 'R ' + n.toLocaleString('en-ZA', {minimumFractionDigits: 2, maximumFractionDigits: 2}); }
@@ -1018,8 +1080,26 @@ function pct(n, t) { return ((n / t) * 100).toFixed(1) + '%'; }
 function fmt(n) { if (n == null) return '\u2014'; return 'R ' + n.toLocaleString('en-ZA', {minimumFractionDigits: 0, maximumFractionDigits: 0}); }
 
 // Bill comparison data
-// ME 401 — TBC: bill comparison data pending
-const billComparison = {};
+// ME 401 — Old Phase 1 vs Revised Phase 1 comparison
+const billComparison = {
+  "PG":{title:"Preliminaries & General",origTotal:1050000,revTotal:920000},
+  "B1":{title:"Earthworks",origTotal:136915,revTotal:137175},
+  "B2":{title:"Concrete, Formwork & Reinforcement",origTotal:1081600,revTotal:1181310},
+  "B3":{title:"Masonry",origTotal:327597,revTotal:359976},
+  "B4":{title:"Waterproofing",origTotal:123840,revTotal:168210},
+  "B5":{title:"Roof Coverings",origTotal:161000,revTotal:158200},
+  "B6":{title:"Carpentry & Joinery",origTotal:70925,revTotal:86050},
+  "B7":{title:"Ceilings",origTotal:191185,revTotal:420410},
+  "B8":{title:"Floor Coverings",origTotal:39200,revTotal:39200},
+  "B9":{title:"Structural Steelwork",origTotal:822205,revTotal:858215},
+  "B10":{title:"Metalwork (Aluminium)",origTotal:1127500,revTotal:1127500},
+  "B11":{title:"Plastering",origTotal:253800,revTotal:214875},
+  "B12":{title:"Tiling",origTotal:192150,revTotal:188550},
+  "B13":{title:"Plumbing & Drainage",origTotal:124625,revTotal:164180},
+  "B14":{title:"Paintwork",origTotal:140210,revTotal:97890},
+  "PS":{title:"Provisional Sums",origTotal:1783450,revTotal:1988250},
+  "EW":{title:"External Works",origTotal:263540,revTotal:194323}
+};
 
 // ========================================================================
 // REVISED VS ORIGINAL RENDERER
@@ -1033,8 +1113,7 @@ function renderRevised() {
 
   billKeys.forEach(billId => {
     if (filter !== 'all') {
-      if (filter === 'EW') { if (billId !== 'EW-1' && billId !== 'EW-2') return; }
-      else { if (billId !== filter) return; }
+      if (billId !== filter) return;
     }
     const bc = billComparison[billId];
     const displayBill = billId.startsWith('EW') ? billId.replace('EW-', 'EW.') : billId;
