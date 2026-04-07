@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>House Mansfield — Mansfield Residence</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f5f5f5;
+  --card: #ffffff;
+  --elevated: #f8f8f8;
+  --inset: #f0f0f0;
+  --border: #e5e5e5;
+  --border-b: #d5d5d5;
+  --border-a: #c0c0c0;
+  --text: #333333;
+  --text2: #555555;
+  --muted: #888888;
+  --gold: #c8a84e;
+  --gold-d: rgba(200,168,78,0.1);
+  --indigo: #4a5568;
+  --indigo-d: rgba(74,85,104,0.08);
+  --green: #16a34a;
+  --green-d: rgba(22,163,74,0.08);
+  --red: #dc2626;
+  --red-d: rgba(220,38,38,0.08);
+  --cyan: #0891b2;
+  --cyan-d: rgba(8,145,178,0.08);
+  --orange: #ea580c;
+  --orange-d: rgba(234,88,12,0.08);
+  --purple: #7c3aed;
+  --purple-d: rgba(124,58,237,0.08);
+  --r: 8px;
+  --rs: 4px;
+  --t: 0.2s ease;
+  --header-bg: #2d2d2d;
+  --nav-bg: #3a3a3a;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 3px; }
+
+/* ===== LOGIN ===== */
+#loginPage { display: none; justify-content: center; align-items: center; min-height: 100vh; background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%); padding: 20px; }
+.login-card { background: #fff; border-radius: 12px; padding: 48px 40px; width: 100%; max-width: 420px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); text-align: center; }
+.login-logos { display: flex; justify-content: center; align-items: center; gap: 24px; margin-bottom: 32px; }
+.login-logos img { height: 56px; object-fit: contain; }
+.login-card h1 { font-size: 1.5rem; font-weight: 800; color: #2d2d2d; margin-bottom: 4px; letter-spacing: -0.5px; }
+.login-card .login-sub { font-size: 0.85rem; color: var(--muted); margin-bottom: 28px; }
+.login-field { margin-bottom: 16px; text-align: left; }
+.login-field label { font-size: 0.72rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 6px; }
+.login-field input { width: 100%; padding: 12px 14px; border: 1px solid var(--border-b); border-radius: 6px; font-size: 0.9rem; font-family: inherit; outline: none; transition: border-color var(--t); }
+.login-field input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-d); }
+.login-btn { width: 100%; padding: 14px; background: var(--gold); color: #fff; border: none; border-radius: 6px; font-size: 0.9rem; font-weight: 700; cursor: pointer; font-family: inherit; transition: background var(--t); margin-top: 8px; }
+.login-btn:hover { background: #b8963e; }
+.login-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.login-error { color: var(--red); font-size: 0.78rem; margin-top: 12px; display: none; }
+
+/* ===== APP WRAPPER ===== */
+#appPage { display: block; }
+
+/* ===== HEADER ===== */
+.header { background: var(--header-bg); color: #fff; padding: 16px 28px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+.header-left { display: flex; align-items: center; gap: 16px; }
+.header-left img { height: 44px; border-radius: 4px; }
+.header-left h1 { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.3px; }
+.header-left .sub { font-size: 0.72rem; color: rgba(255,255,255,0.5); margin-top: 2px; }
+.header-right { display: flex; align-items: center; gap: 16px; }
+.header-right img { height: 36px; }
+.header-user { font-size: 0.72rem; color: rgba(255,255,255,0.6); }
+.logout-btn { padding: 6px 14px; background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; font-size: 0.72rem; font-weight: 600; cursor: pointer; font-family: inherit; transition: all var(--t); display: none; /* AUTH DISABLED TEMP */ }
+.header-right #userEmail { display: none; /* AUTH DISABLED TEMP */ }
+.logout-btn:hover { background: rgba(255,255,255,0.2); }
+
+/* ===== NAV BAR ===== */
+.nav { display: flex; background: var(--nav-bg); padding: 0 12px; position: sticky; top: 60px; z-index: 99; flex-wrap: wrap; gap: 0; }
+.nav-item { position: relative; }
+.nav-btn { padding: 14px 18px; cursor: pointer; font-size: 0.82rem; font-weight: 600; color: rgba(255,255,255,0.65); border: none; background: none; border-bottom: 3px solid transparent; white-space: nowrap; transition: all var(--t); font-family: inherit; display: flex; align-items: center; gap: 5px; letter-spacing: -0.1px; }
+.nav-btn:hover { color: #fff; background: rgba(255,255,255,0.05); }
+.nav-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+.nav-btn .arrow { font-size: 0.5rem; transition: transform 0.2s; }
+.nav-item:hover .arrow, .nav-item.open .arrow { transform: rotate(180deg); }
+.nav-dropdown { display: none; position: absolute; top: 100%; left: 0; background: #fff; border: 1px solid var(--border); border-radius: 6px; min-width: 220px; padding: 4px 0; box-shadow: 0 8px 24px rgba(0,0,0,0.15); z-index: 200; }
+.nav-item:hover .nav-dropdown, .nav-item.open .nav-dropdown { display: block; }
+.nav-drop-item { display: block; padding: 10px 18px; font-size: 0.8rem; color: var(--text2); cursor: pointer; transition: all 0.15s; border: none; background: none; width: 100%; text-align: left; font-family: inherit; white-space: nowrap; font-weight: 500; }
+.nav-drop-item:hover { background: var(--gold-d); color: var(--text); }
+.nav-drop-item.active { color: var(--gold); font-weight: 700; }
+
+/* ===== CONTENT ===== */
+.content { max-width: 1400px; margin: 0 auto; padding: 24px; }
+.panel { display: none; animation: slideUp 0.3s ease; }
+.panel.active { display: block; }
+@keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ===== CARDS ===== */
+.card { background: var(--card); border: 1px solid var(--border); border-radius: var(--r); margin-bottom: 16px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.card-h { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+.card-h h2 { font-size: 1rem; font-weight: 700; color: var(--text); }
+.card-b { padding: 20px; }
+
+/* ===== METRIC CARDS ===== */
+.mg { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 20px; }
+.m { background: var(--card); border: 1px solid var(--border); border-radius: var(--r); padding: 18px 20px; position: relative; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.m::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; }
+.m.gold::before { background: linear-gradient(90deg, var(--gold), transparent 80%); }
+.m.green::before { background: linear-gradient(90deg, var(--green), transparent 80%); }
+.m.red::before { background: linear-gradient(90deg, var(--red), transparent 80%); }
+.m.indigo::before { background: linear-gradient(90deg, var(--indigo), transparent 80%); }
+.m.purple::before { background: linear-gradient(90deg, var(--purple), transparent 80%); }
+.m.cyan::before { background: linear-gradient(90deg, var(--cyan), transparent 80%); }
+.m.orange::before { background: linear-gradient(90deg, var(--orange), transparent 80%); }
+.m-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 1.1px; color: var(--muted); margin-bottom: 6px; font-weight: 600; }
+.m-value { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.5px; color: var(--text); }
+.m-sub { font-size: 0.68rem; color: var(--muted); margin-top: 4px; }
+
+/* ===== TABLES ===== */
+table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+th { background: var(--elevated); padding: 10px 14px; text-align: left; font-weight: 600; color: var(--muted); border-bottom: 1px solid var(--border); font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.7px; }
+td { padding: 9px 14px; border-bottom: 1px solid var(--border); color: var(--text2); }
+tr:hover td { background: rgba(0,0,0,0.01); }
+.r { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* summary table */
+.summary-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+.summary-table th { background: var(--elevated); padding: 12px 16px; text-align: right; font-weight: 600; color: var(--muted); border-bottom: 1px solid var(--border); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.7px; }
+.summary-table th:first-child { text-align: left; }
+.summary-table td { padding: 10px 16px; border-bottom: 1px solid var(--border); color: var(--text2); }
+.summary-table .section-header td { background: var(--elevated); font-weight: 700; color: var(--indigo); font-size: 0.82rem; padding: 12px 16px; border-top: 2px solid rgba(74,85,104,0.2); }
+.summary-table .subtotal td { background: rgba(74,85,104,0.04); font-weight: 700; color: var(--text); border-top: 1px solid rgba(74,85,104,0.15); }
+.summary-table .grand-total td { background: var(--gold-d); font-weight: 800; color: #8b6914; font-size: 0.88rem; border-top: 2px solid rgba(200,168,78,0.3); }
+.summary-table .spacer td { padding: 4px; border: none; background: transparent; }
+.desc-cell { padding-left: 24px !important; }
+
+/* bill rows */
+.bill-header td { background: var(--elevated) !important; font-weight: 800; color: var(--indigo); font-size: 0.84rem; padding: 10px 14px; border-top: 2px solid rgba(74,85,104,0.2); border-bottom: 1px solid rgba(74,85,104,0.15); cursor: pointer; }
+.bill-header:hover td { background: rgba(74,85,104,0.08) !important; }
+.bill-header .toggle { display: inline-block; width: 16px; font-size: 0.7rem; color: var(--muted); transition: transform 0.2s; }
+.bill-header.collapsed .toggle { transform: rotate(-90deg); }
+.bill-total td { background: rgba(74,85,104,0.03) !important; border-top: 1px solid rgba(74,85,104,0.1); font-weight: 700; color: var(--text); }
+.boq-heading td { background: var(--elevated) !important; font-weight: 600; color: var(--indigo); font-size: 0.76rem; padding: 6px 14px 6px 28px; border-bottom: 1px solid var(--border); }
+.boq-item td { font-size: 0.76rem; color: var(--text2); padding: 6px 14px; }
+.boq-item:hover td { background: rgba(200,168,78,0.04); }
+.boq-zero td { color: var(--muted); font-style: italic; }
+.gt td { background: var(--gold-d) !important; font-weight: 800; color: #8b6914; font-size: 0.84rem; border-top: 2px solid rgba(200,168,78,0.3); }
+.bt td { background: rgba(74,85,104,0.04); font-weight: 600; color: var(--text); border-top: 1px solid rgba(74,85,104,0.15); }
+
+/* revised rows */
+.rev-row.changed td { background: rgba(22,163,74,0.04); }
+.rev-row.changed .rev-new { color: var(--green); font-weight: 700; }
+
+/* ===== BADGES ===== */
+.badge { display: inline-flex; align-items: center; padding: 3px 8px; border-radius: 4px; font-size: 0.64rem; font-weight: 600; letter-spacing: 0.2px; }
+.b-green { background: var(--green-d); color: var(--green); }
+.b-gold { background: var(--gold-d); color: #8b6914; }
+.b-red { background: var(--red-d); color: var(--red); }
+.b-orange { background: var(--orange-d); color: var(--orange); }
+.b-indigo { background: var(--indigo-d); color: var(--indigo); }
+.b-purple { background: var(--purple-d); color: var(--purple); }
+.b-cyan { background: var(--cyan-d); color: var(--cyan); }
+
+/* ===== BUTTONS ===== */
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 4px; font-size: 0.76rem; font-weight: 600; cursor: pointer; border: none; transition: all var(--t); font-family: inherit; text-decoration: none; }
+.btn-primary { background: var(--gold); color: #fff; }
+.btn-primary:hover { background: #b8963e; transform: translateY(-1px); }
+.btn-download { background: var(--green); color: #fff; }
+.btn-download:hover { background: #15803d; transform: translateY(-1px); }
+.btn-outline { background: transparent; border: 1px solid var(--border-b); color: var(--text2); }
+.btn-outline:hover { border-color: var(--gold); color: #8b6914; }
+.btn-sm { padding: 6px 12px; font-size: 0.7rem; }
+
+/* ===== CHARTS ===== */
+.chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.chart-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--r); padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.chart-card h3 { font-size: 0.82rem; font-weight: 600; color: var(--text2); margin-bottom: 14px; text-align: center; }
+.chart-wrap { position: relative; height: 280px; }
+
+/* ===== RISK BAR ===== */
+.risk-bar { background: var(--red-d); border: 1px solid rgba(220,38,38,0.2); border-radius: var(--rs); padding: 16px 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 14px; }
+.risk-icon { font-size: 1.3rem; }
+.risk-text h4 { font-size: 0.82rem; font-weight: 700; color: var(--red); }
+.risk-text p { font-size: 0.72rem; color: var(--text2); margin-top: 2px; }
+
+/* ===== UPLOAD ZONE ===== */
+.upload-zone { border: 2px dashed var(--border-b); border-radius: var(--r); padding: 40px; text-align: center; cursor: pointer; transition: all var(--t); background: var(--inset); }
+.upload-zone:hover { border-color: var(--gold); background: var(--gold-d); }
+.upload-zone .icon { font-size: 2rem; margin-bottom: 10px; opacity: 0.4; }
+.upload-zone .upload-title { font-weight: 600; color: var(--text2); font-size: 0.85rem; }
+.upload-zone .upload-sub { font-size: 0.72rem; color: var(--muted); margin-top: 4px; }
+.upload-progress { margin-top: 8px; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; display: none; }
+.upload-progress-bar { height: 100%; background: var(--gold); border-radius: 2px; transition: width 0.3s; width: 0%; }
+
+/* ===== FILTER BAR ===== */
+.filter-bar { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
+.filter-bar select, .filter-bar input { padding: 9px 14px; border: 1px solid var(--border-b); border-radius: 4px; font-size: 0.78rem; background: #fff; color: var(--text); font-family: inherit; outline: none; transition: border-color var(--t); }
+.filter-bar select:focus, .filter-bar input:focus { border-color: var(--gold); }
+.filter-bar input::placeholder { color: var(--muted); }
+.filter-count { font-size: 0.72rem; color: var(--muted); margin-left: auto; white-space: nowrap; }
+
+/* ===== PKG CARDS ===== */
+.pkg-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+.pkg-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.pkg-top { padding: 20px; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; }
+.pkg-top h3 { font-size: 0.95rem; font-weight: 700; }
+.pkg-meta { font-size: 0.72rem; color: var(--muted); margin-top: 4px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.pkg-amount { font-size: 1.3rem; font-weight: 800; color: #8b6914; letter-spacing: -0.5px; }
+.pkg-body { padding: 0 20px 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.pkg-section-label { font-size: 0.64rem; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 700; margin-bottom: 6px; }
+.scope-list { list-style: none; padding: 0; margin: 0; }
+.scope-list li { padding: 3px 0 3px 14px; position: relative; font-size: 0.76rem; color: var(--text2); line-height: 1.5; }
+.scope-list li::before { content: ''; position: absolute; left: 0; top: 11px; width: 4px; height: 4px; border-radius: 1px; background: var(--gold); }
+.pkg-footer { padding: 12px 20px; border-top: 1px solid var(--border); display: flex; gap: 8px; flex-wrap: wrap; align-items: center; background: var(--elevated); }
+.drawing-pills { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+.drawing-pill { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; background: var(--inset); border: 1px solid var(--border); border-radius: 3px; font-size: 0.64rem; color: var(--muted); font-weight: 500; }
+
+/* ===== INFO BOX ===== */
+.info-box { padding: 16px 20px; background: rgba(200,168,78,0.06); border: 1px solid rgba(200,168,78,0.2); border-radius: var(--rs); font-size: 0.78rem; color: var(--text2); margin-top: 16px; }
+
+/* ===== FOOTER ===== */
+footer { text-align: center; padding: 20px; font-size: 0.64rem; color: var(--muted); border-top: 1px solid var(--border); margin-top: 24px; }
+
+/* ===== SPINNER ===== */
+.spinner { width: 14px; height: 14px; border: 2px solid transparent; border-top: 2px solid currentColor; border-radius: 50%; animation: spin 0.6s linear infinite; display: inline-block; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ===== TOAST ===== */
+.toast { position: fixed; bottom: 20px; right: 20px; padding: 12px 20px; border-radius: 6px; font-size: 0.78rem; font-weight: 600; color: #fff; z-index: 1000; transform: translateY(100px); opacity: 0; transition: all 0.3s ease; }
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast.success { background: var(--green); }
+.toast.error { background: var(--red); }
+
+/* ===== TABLET ===== */
+@media (max-width: 900px) {
+  .chart-grid { grid-template-columns: 1fr; }
+  .mg { grid-template-columns: repeat(2, 1fr); }
+  .pkg-body { grid-template-columns: 1fr; }
+  .header { padding: 12px 16px; }
+  .content { padding: 16px; }
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 600px) {
+  html, body { overflow-x: hidden; width: 100%; max-width: 100vw; }
+  .header { padding: 10px 12px; flex-direction: column; align-items: flex-start; gap: 6px; }
+  .header-left h1 { font-size: 0.9rem; }
+  .header-left .sub { display: none; }
+  .header-left img { height: 32px; }
+  .header-right { width: 100%; justify-content: space-between; }
+  .header-right img { height: 28px; }
+  .nav { padding: 4px 8px; top: auto; position: relative; flex-wrap: wrap; }
+  .nav-btn { padding: 8px 10px; font-size: 0.66rem; }
+  .nav-dropdown { min-width: 180px; }
+  .nav-drop-item { padding: 8px 14px; font-size: 0.72rem; }
+  .content { padding: 10px; max-width: 100vw; overflow-x: hidden; }
+  .mg { grid-template-columns: 1fr !important; gap: 8px; }
+  .m { padding: 12px 14px; }
+  .m-value { font-size: 1.1rem; }
+  .m-label { font-size: 0.54rem; }
+  .card { margin-bottom: 10px; }
+  .card-h { padding: 10px 14px; }
+  .card-h h2 { font-size: 0.85rem; }
+  .card-b { padding: 12px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { font-size: 0.68rem; white-space: nowrap; }
+  th { padding: 7px 8px; font-size: 0.56rem; }
+  td { padding: 6px 8px; }
+  .summary-table { font-size: 0.64rem; white-space: nowrap; }
+  .summary-table th { padding: 8px 6px; font-size: 0.52rem; }
+  .summary-table td { padding: 6px; }
+  .summary-table td:first-child { white-space: normal; min-width: 100px; max-width: 120px; word-break: break-word; }
+  .summary-table .grand-total td { font-size: 0.68rem; }
+  .chart-grid { grid-template-columns: 1fr; gap: 10px; }
+  .chart-wrap { height: 220px; }
+  .btn { padding: 6px 10px; font-size: 0.66rem; }
+  .filter-bar { flex-direction: column; align-items: stretch; }
+  .filter-bar select, .filter-bar input { width: 100%; }
+  .pkg-top { padding: 14px; flex-direction: column; }
+  .pkg-body { padding: 0 14px 14px; grid-template-columns: 1fr; }
+  .pkg-footer { flex-direction: column; align-items: stretch; }
+  .pkg-footer .btn, .pkg-footer a { width: 100%; justify-content: center; text-align: center; }
+  .upload-zone { padding: 20px 14px; }
+  .upload-zone .upload-title { font-size: 0.72rem; }
+  .risk-bar { padding: 10px 12px; flex-direction: column; align-items: flex-start; }
+  footer { font-size: 0.56rem; }
+  .login-card { padding: 32px 24px; }
+  .login-logos img { height: 40px; }
+  .login-card h1 { font-size: 1.2rem; }
+}
+@media (max-width: 380px) {
+  .nav-btn { padding: 6px 7px; font-size: 0.58rem; }
+  .m-value { font-size: 0.95rem; }
+}
+@media print { body { background: #fff; color: #000; } .header, .nav { position: static; } .card { break-inside: avoid; border: 1px solid #ddd; } .panel { display: block !important; } td, th { color: #333; border-color: #ddd; } #loginPage { display: none !important; } #appPage { display: block !important; } }
+</style>
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- LOGIN PAGE                                                    -->
+<!-- ============================================================ -->
+<div id="loginPage">
+  <div class="login-card">
+    <div class="login-logos">
+      <img src="assets/mansfield-logo.png" alt="House Mansfield" onerror="this.style.display='none'">
+      <img src="assets/me-logo.png" alt="Metric Edge" onerror="this.style.display='none'">
+    </div>
+    <h1>House Mansfield</h1>
+    <div class="login-sub">Mansfield Residence Portal</div>
+    <div class="login-field">
+      <label>Email Address</label>
+      <input type="email" id="loginEmail" placeholder="you@example.com" autocomplete="email">
+    </div>
+    <div class="login-field">
+      <label>Password</label>
+      <input type="password" id="loginPassword" placeholder="Enter your password" autocomplete="current-password">
+    </div>
+    <button class="login-btn" id="loginBtn" onclick="doLogin()">Sign In</button>
+    <div class="login-error" id="loginError"></div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- APP PAGE                                                      -->
+<!-- ============================================================ -->
+<div id="appPage">
+
+<div class="header">
+  <div class="header-left">
+    <img src="assets/mansfield-logo.png" alt="House Mansfield" onerror="this.style.display='none'">
+    <div>
+      <h1>House Mansfield &#8212; Mansfield Residence</h1>
+      <div class="sub">New Residence &#8226; Project Dashboard</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <img src="assets/me-logo.png" alt="Metric Edge" onerror="this.style.display='none'">
+    <span class="header-user" id="userEmail"></span>
+    <button class="logout-btn" onclick="doLogout()">Logout</button>
+  </div>
+</div>
+
+<div class="nav" id="mainNav">
+  <div class="nav-item">
+    <button class="nav-btn" onclick="toggleDrop(this)">Contract Price <span class="arrow">&#9662;</span></button>
+    <div class="nav-dropdown">
+      <button class="nav-drop-item active" onclick="navTo('summary',this)">Build Breakdown</button>
+      <button class="nav-drop-item" onclick="navTo('revised',this)">Revised vs Original</button>
+      <button class="nav-drop-item" onclick="navTo('submission',this)">Original Submission</button>
+    </div>
+  </div>
+  <div class="nav-item">
+    <button class="nav-btn" onclick="toggleDrop(this)">Procurement <span class="arrow">&#9662;</span></button>
+    <div class="nav-dropdown">
+      <button class="nav-drop-item" onclick="navTo('packages',this)">Procurement Packs</button>
+      <button class="nav-drop-item" onclick="navTo('subcon',this)">Subcontractors</button>
+      <button class="nav-drop-item" onclick="navTo('uploads',this)">Upload Pricing</button>
+    </div>
+  </div>
+  <div class="nav-item">
+    <button class="nav-btn" onclick="toggleDrop(this)">Drawings <span class="arrow">&#9662;</span></button>
+    <div class="nav-dropdown">
+      <button class="nav-drop-item" onclick="navTo('drawings',this)">Tender Drawings</button>
+      <button class="nav-drop-item" onclick="navTo('constdrawings',this)">Construction Drawings</button>
+    </div>
+  </div>
+  <div class="nav-item">
+    <button class="nav-btn" onclick="toggleDrop(this)">Programme <span class="arrow">&#9662;</span></button>
+    <div class="nav-dropdown">
+      <button class="nav-drop-item" onclick="navTo('programme',this)">Master Programme</button>
+      <button class="nav-drop-item" onclick="navTo('proghistory',this)">Programme History</button>
+    </div>
+  </div>
+  <div class="nav-item">
+    <button class="nav-btn" onclick="toggleDrop(this)">Site Administration <span class="arrow">&#9662;</span></button>
+    <div class="nav-dropdown">
+      <button class="nav-drop-item" onclick="navTo('siteminutes',this)">Site Meeting Minutes</button>
+      <button class="nav-drop-item" onclick="navTo('photos',this)">Site Photographs</button>
+    </div>
+  </div>
+  <div class="nav-item">
+    <button class="nav-btn" onclick="navTo('valuations',this)">Payment Certificates</button>
+  </div>
+  <div class="nav-item">
+    <button class="nav-btn" onclick="navTo('costreports',this)">Cost Reports</button>
+  </div>
+  <div class="nav-item">
+    <button class="nav-btn" onclick="navTo('variations',this)">Variations</button>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ===================== FINANCIAL SUMMARY / BUILD BREAKDOWN ===================== -->
+<div class="panel active" id="panel-summary">
+  <div class="card">
+    <div class="card-h"><h2>Project Financial Summary</h2><span class="badge b-gold">TBC &#8212; Pending Phase 1 Estimate</span></div>
+    <div class="card-b" style="padding:20px;text-align:center">
+      <p style="font-size:0.88rem;color:var(--muted);padding:40px 0">Financial data will be populated once Phase 1 estimates are finalised.</p>
+    </div>
+  </div>
+
+  <div class="chart-grid">
+    <div class="chart-card"><h3>Cost Split &#8212; High Level</h3><div class="chart-wrap"><canvas id="chartHighLevel"></canvas></div></div>
+    <div class="chart-card"><h3>Cost by Trade (ex VAT)</h3><div class="chart-wrap"><canvas id="chartTrades"></canvas></div></div>
+  </div>
+</div>
+
+<!-- ===================== REVISED VS ORIGINAL ===================== -->
+<div class="panel" id="panel-revised">
+  <div class="mg" style="grid-template-columns:repeat(4,1fr)">
+    <div class="m indigo"><div class="m-label">Original Total (ex VAT)</div><div class="m-value">TBC</div><div class="m-sub">Pending estimate</div></div>
+    <div class="m green"><div class="m-label">Revised Total (ex VAT)</div><div class="m-value" id="revisedTotalCard">TBC</div><div class="m-sub">Pending</div></div>
+    <div class="m gold"><div class="m-label">Total Saving (ex VAT)</div><div class="m-value" id="totalSavingCard">TBC</div><div class="m-sub">Pending</div></div>
+    <div class="m purple"><div class="m-label">% Reduction</div><div class="m-value" id="pctReductionCard">TBC</div><div class="m-sub">On total ex VAT</div></div>
+  </div>
+  <div class="card">
+    <div class="card-h">
+      <h2>Original vs Revised &#8212; Full BOQ Line Items</h2>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <select id="revBillFilter" onchange="renderRevised()" style="padding:7px 12px;border:1px solid var(--border-b);border-radius:4px;font-size:0.76rem;background:#fff;color:var(--text);font-family:inherit;outline:none">
+          <option value="all">All Bills</option>
+          <option value="01">Bill 01 &#8212; Preliminaries</option>
+          <option value="1">Bill 1 &#8212; Alterations</option><option value="2">Bill 2 &#8212; Earthworks</option><option value="3">Bill 3 &#8212; Concrete &amp; Formwork</option><option value="4">Bill 4 &#8212; Masonry</option><option value="5">Bill 5 &#8212; Waterproofing</option><option value="6">Bill 6 &#8212; Carpentry &amp; Joinery</option><option value="7">Bill 7 &#8212; Ceilings &amp; Partitions</option><option value="8">Bill 8 &#8212; Floor Coverings</option><option value="9">Bill 9 &#8212; Plastering</option><option value="10">Bill 10 &#8212; Tiling</option><option value="11">Bill 11 &#8212; Plumbing &amp; Drainage</option><option value="12">Bill 12 &#8212; Paintwork</option><option value="13">Bill 13 &#8212; Subcontract Packages</option><option value="14">Bill 14 &#8212; Provisional Sums</option><option value="EW">External Works</option>
+        </select>
+        <span class="badge b-green">Auto-populated from 24 Mar 2026 BOQ</span>
+        <span id="revChangedCount" style="font-size:0.72rem;color:var(--muted)"></span>
+      </div>
+    </div>
+    <div class="card-b" style="padding:0;overflow-x:auto"><table id="revisedTable" style="font-size:0.76rem"><thead><tr><th style="width:44px">Bill</th><th style="width:36px">Item</th><th style="min-width:180px">Description</th><th class="r" style="width:36px">Unit</th><th class="r" style="width:50px">Qty</th><th class="r" style="min-width:90px">Orig Rate</th><th class="r" style="min-width:100px">Orig Amt</th><th class="r" style="min-width:90px">Rev Rate</th><th class="r" style="min-width:100px">Rev Amt</th><th class="r" style="min-width:90px">Saving</th></tr></thead><tbody id="revisedBody"></tbody></table></div>
+  </div>
+  <div class="card" style="margin-top:16px"><div class="card-h"><h2>Grand Total Reconciliation</h2></div><div class="card-b" style="padding:0"><table><thead><tr><th></th><th class="r">Original</th><th class="r">Revised</th><th class="r">Saving</th><th class="r">%</th></tr></thead><tbody id="revisedSummaryBody"></tbody></table></div></div>
+  <div class="chart-grid" style="margin-top:16px">
+    <div class="chart-card"><h3>Original vs Revised by Bill</h3><div style="position:relative;height:400px"><canvas id="chartRevised"></canvas></div></div>
+    <div class="chart-card"><h3>Revised Grand Total Waterfall</h3><div style="position:relative;height:400px"><canvas id="chartRevisedWaterfall"></canvas></div></div>
+  </div>
+</div>
+
+<!-- ===================== ORIGINAL SUBMISSION ===================== -->
+<div class="panel" id="panel-submission">
+  <div class="card">
+    <div class="card-h"><h2>Original Tender Submission</h2><span class="badge b-gold">Pending</span></div>
+    <div class="card-b">
+      <p style="font-size:0.82rem;color:var(--text2);margin-bottom:20px;line-height:1.6">Tender submission documents will be uploaded once the tender process is underway.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px">
+        <div style="background:var(--elevated);border:1px solid var(--border);border-radius:var(--r);padding:24px;text-align:center"><div style="font-size:2rem;margin-bottom:8px;opacity:0.4">&#128196;</div><div style="font-weight:700;font-size:0.88rem;margin-bottom:4px">Cover Letter &amp; Report</div><div style="font-size:0.72rem;color:var(--muted);margin-bottom:14px">Project Overview, Scope &amp; Conditions</div><span class="badge b-gold">Pending</span></div>
+        <div style="background:var(--elevated);border:1px solid var(--border);border-radius:var(--r);padding:24px;text-align:center"><div style="font-size:2rem;margin-bottom:8px;opacity:0.4">&#128200;</div><div style="font-weight:700;font-size:0.88rem;margin-bottom:4px">Bill of Quantities (PDF)</div><div style="font-size:0.72rem;color:var(--muted);margin-bottom:14px">Phase 1 White Box BOQ</div><span class="badge b-gold">Pending</span></div>
+        <div style="background:var(--elevated);border:1px solid var(--border);border-radius:var(--r);padding:24px;text-align:center"><div style="font-size:2rem;margin-bottom:8px;opacity:0.4">&#127970;</div><div style="font-weight:700;font-size:0.88rem;margin-bottom:4px">Contractor Portfolio</div><div style="font-size:0.72rem;color:var(--muted);margin-bottom:14px">TBC &#8212; contractor being finalised</div><span class="badge b-gold">Pending</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SUBCONTRACTORS ===================== -->
+<div class="panel" id="panel-subcon">
+  <div class="mg" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr))">
+    <div class="m indigo"><div class="m-label">Total Subcontract</div><div class="m-value">TBC</div><div class="m-sub">Pending contractor finalisation</div></div>
+    <div class="m green"><div class="m-label">Packages Quoted</div><div class="m-value" style="color:var(--green)">0</div><div class="m-sub">Pending</div></div>
+    <div class="m gold"><div class="m-label">Largest Package</div><div class="m-value" style="color:#8b6914">TBC</div><div class="m-sub">Pending</div></div>
+  </div>
+  <div class="card">
+    <div class="card-h"><h2>Current Subcontractor Pricing</h2><span class="badge b-gold">Prices under review &#8212; not yet confirmed</span></div>
+    <div class="card-b" style="padding:0;overflow-x:auto;-webkit-overflow-scrolling:touch"><table>
+      <thead><tr><th>Package</th><th>Description</th><th>Supplier</th><th class="r">Amount (ex VAT)</th><th>Status</th><th style="width:220px;text-align:center">Quote</th></tr></thead>
+      <tbody>
+        <tr><td>SP-01</td><td>Timber Deck &amp; Staircase</td><td>Big Decks</td><td class="r">R 103,655</td><td><span class="badge b-green">Quoted</span></td><td style="text-align:center"><a href="quotes/SP-01_Big_Decks.pdf?v=3" target="_blank" class="btn btn-outline btn-sm" style="margin-right:4px">View</a><label class="btn btn-sm btn-primary" style="cursor:pointer;margin:0"><input type="file" accept=".pdf,.xlsx,.docx" style="display:none" onchange="handleQuoteUpload(this,'SP-01')">Upload New</label></td></tr>
+        <tr><td>SP-02</td><td>Roof Structure &#8212; Supply &amp; Install</td><td>Seacon Roofing</td><td class="r">R 477,691</td><td><span class="badge b-green">Quoted</span></td><td style="text-align:center"><a href="quotes/SP-02_Seacon_Roofing.pdf?v=3" target="_blank" class="btn btn-outline btn-sm" style="margin-right:4px">View</a><label class="btn btn-sm btn-primary" style="cursor:pointer;margin:0"><input type="file" accept=".pdf,.xlsx,.docx" style="display:none" onchange="handleQuoteUpload(this,'SP-02')">Upload New</label></td></tr>
+        <tr><td>SP-03</td><td>Aluminium Windows &amp; Doors</td><td>GT Aluminium</td><td class="r">R 302,124</td><td><span class="badge b-green">Quoted</span></td><td style="text-align:center"><a href="quotes/SP-03_GT_Aluminium.pdf?v=3" target="_blank" class="btn btn-outline btn-sm" style="margin-right:4px">View</a><label class="btn btn-sm btn-primary" style="cursor:pointer;margin:0"><input type="file" accept=".pdf,.xlsx,.docx" style="display:none" onchange="handleQuoteUpload(this,'SP-03')">Upload New</label></td></tr>
+        <tr><td>SP-05</td><td>Metal Palisade / Gate</td><td>RSW Engineering</td><td class="r">R 38,511</td><td><span class="badge b-green">Quoted</span></td><td style="text-align:center"><a href="quotes/SP-05_SP-06_RSW_Engineering.pdf?v=3" target="_blank" class="btn btn-outline btn-sm" style="margin-right:4px">View</a><label class="btn btn-sm btn-primary" style="cursor:pointer;margin:0"><input type="file" accept=".pdf,.xlsx,.docx" style="display:none" onchange="handleQuoteUpload(this,'SP-05')">Upload New</label></td></tr>
+        <tr><td>SP-06</td><td>Balustrades</td><td>RSW Engineering</td><td class="r">R 17,557</td><td><span class="badge b-green">Quoted</span></td><td style="text-align:center"><a href="quotes/SP-05_SP-06_RSW_Engineering.pdf?v=3" target="_blank" class="btn btn-outline btn-sm" style="margin-right:4px">View</a><label class="btn btn-sm btn-primary" style="cursor:pointer;margin:0"><input type="file" accept=".pdf,.xlsx,.docx" style="display:none" onchange="handleQuoteUpload(this,'SP-06')">Upload New</label></td></tr>
+        <tr><td>SP-07</td><td>Rainwater Goods</td><td>Gutter Brigade</td><td class="r">R 29,700</td><td><span class="badge b-green">Quoted</span></td><td style="text-align:center"><a href="quotes/SP-07_Gutter_Brigade.pdf?v=3" target="_blank" class="btn btn-outline btn-sm" style="margin-right:4px">View</a><label class="btn btn-sm btn-primary" style="cursor:pointer;margin:0"><input type="file" accept=".pdf,.xlsx,.docx" style="display:none" onchange="handleQuoteUpload(this,'SP-07')">Upload New</label></td></tr>
+        <tr><td>SP-11</td><td>Electrical Installation</td><td>CW Electrical</td><td class="r">R 287,405</td><td><span class="badge b-green">Quoted</span></td><td style="text-align:center"><a href="quotes/SP-11_CW_Electrical.pdf?v=3" target="_blank" class="btn btn-outline btn-sm" style="margin-right:4px">View</a><label class="btn btn-sm btn-primary" style="cursor:pointer;margin:0"><input type="file" accept=".pdf,.xlsx,.docx" style="display:none" onchange="handleQuoteUpload(this,'SP-11')">Upload New</label></td></tr>
+        <tr><td>SP-11b</td><td>Three Phase Upgrade (Optional)</td><td>CW Electrical</td><td class="r">R 46,400</td><td><span class="badge b-indigo">Optional</span></td><td style="text-align:center"><span class="btn btn-outline btn-sm" style="opacity:0.4;cursor:default">Incl. above</span></td></tr>
+        <tr><td>SP-08</td><td>Carpet (Floor Coverings)</td><td>Church to procure</td><td class="r">R 98,000</td><td><span class="badge b-cyan">Pack Ready</span></td><td style="text-align:center"><a href="quotes/SP-08_Dave_Moon_Carpets.pdf?v=3" target="_blank" class="btn btn-outline btn-sm" style="margin-right:4px">View</a><label class="btn btn-sm btn-primary" style="cursor:pointer;margin:0"><input type="file" accept=".pdf,.xlsx,.docx" style="display:none" onchange="handleQuoteUpload(this,'SP-08')">Upload New</label></td></tr>
+        <tr><td>SP-09</td><td>Decorative/Self-levelling Screed</td><td>Subcontractor</td><td class="r">R 50,460</td><td><span class="badge b-gold">For Pricing</span></td><td style="text-align:center"><a href="quotes/SP-09_Floor_Screeds.pdf?v=3" target="_blank" class="btn btn-outline btn-sm" style="margin-right:4px">View</a><label class="btn btn-sm btn-primary" style="cursor:pointer;margin:0"><input type="file" accept=".pdf,.xlsx,.docx" style="display:none" onchange="handleQuoteUpload(this,'SP-09')">Upload New</label></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <div class="card">
+    <div class="card-h"><h2>Provisional Sums (No Pricing Yet)</h2></div>
+    <div class="card-b" style="padding:0;overflow-x:auto;-webkit-overflow-scrolling:touch"><table>
+      <thead><tr><th>Bill 14</th><th>Description</th><th class="r">Provision (ex VAT)</th><th>Procurement Pack</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>PS-01</td><td>Ironmongery</td><td class="r">R 15,000</td><td>No</td><td><span class="badge b-purple">Provisional Sum</span></td></tr>
+        <tr><td>PS-02</td><td>Landscaping</td><td class="r">R 25,000</td><td>No</td><td><span class="badge b-purple">Provisional Sum</span></td></tr>
+        <tr><td>PS-03</td><td>Sanware/Brassware/Geysers</td><td class="r">R 30,000</td><td>No</td><td><span class="badge b-purple">Provisional Sum</span></td></tr>
+        <tr><td>PS-04</td><td>Mirrors &amp; Bathroom Accessories</td><td class="r">R 5,000</td><td>No</td><td><span class="badge b-purple">Provisional Sum</span></td></tr>
+        <tr><td>PS-05</td><td>Signage</td><td class="r">R 10,000</td><td>No</td><td><span class="badge b-purple">Provisional Sum</span></td></tr>
+        <tr><td>PS-06</td><td>Sewer</td><td class="r">R 15,000</td><td>No</td><td><span class="badge b-purple">Provisional Sum</span></td></tr>
+        <tr><td>PS-07</td><td>Feature Wall Signage</td><td class="r">R 5,000</td><td>No</td><td><span class="badge b-purple">Provisional Sum</span></td></tr>
+        <tr><td>PS-08</td><td>Stage</td><td class="r">R 40,000</td><td>Yes &#8212; Refer to Procurement Pack tab</td><td><span class="badge b-cyan">Pack Ready</span></td></tr>
+        <tr><td>PS-09</td><td>Sound &amp; Media Joinery</td><td class="r">R 30,000</td><td>Yes &#8212; Refer to Procurement Pack tab</td><td><span class="badge b-cyan">Pack Ready</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <div class="chart-grid">
+    <div class="chart-card"><h3>Package Split</h3><div class="chart-wrap"><canvas id="chartSubPie"></canvas></div></div>
+    <div class="chart-card"><h3>Subcontract vs Builder's Work</h3><div class="chart-wrap"><canvas id="chartSubVsBuilder"></canvas></div></div>
+  </div>
+</div>
+
+<!-- ===================== PROCUREMENT PACKS ===================== -->
+<div class="panel" id="panel-packages">
+  <div class="mg" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr))">
+    <div class="m indigo"><div class="m-label">Tender Packs Available</div><div class="m-value">11</div><div class="m-sub">PDF tender docs + drawings as .zip</div></div>
+    <div class="m green"><div class="m-label">All Packages</div><div class="m-value" style="color:var(--green)">Ready</div><div class="m-sub">Actual tender packs as sent</div></div>
+  </div>
+  <div class="pkg-grid" id="pkgCards"></div>
+</div>
+
+<!-- ===================== UPLOAD PRICING ===================== -->
+<div class="panel" id="panel-uploads">
+  <div class="card">
+    <div class="card-h"><h2>Upload Revised Pricing</h2></div>
+    <div class="card-b">
+      <p style="margin-bottom:16px;font-size:0.82rem;color:var(--muted)">Subcontractors and the Church can upload revised quotations for each package.</p>
+      <div style="margin-bottom:16px">
+        <label style="font-size:0.7rem;font-weight:600;display:block;margin-bottom:6px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Select Package</label>
+        <select id="uploadPkg" style="padding:10px 14px;border:1px solid var(--border-b);border-radius:4px;width:100%;max-width:400px;font-size:0.82rem;background:#fff;color:var(--text);font-family:inherit;outline:none">
+          <option>SP-01: Timber Deck &amp; Staircase</option><option>SP-02: Roof Structure</option><option>SP-03: Aluminium Windows &amp; Doors</option><option>SP-05: Metal Palisade / Gate</option><option>SP-06: Metal Balustrades</option><option>SP-07: Rainwater Goods</option><option>SP-08: Carpets</option><option>SP-09: Specialist Floor Screeds</option><option>SP-11: Electrical Installation</option><option>SP-12: Stage Construction</option><option>SP-13: Sound &amp; Media Joinery</option><option>NEW: Sound Installation</option><option>NEW: Air Conditioning</option><option>NEW: Kitchen Fit-out</option><option>NEW: Chairs / Seating</option>
+        </select>
+      </div>
+      <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+        <div class="icon">&#128206;</div>
+        <div class="upload-title">Drop files here or click to upload</div>
+        <div class="upload-sub">PDF, XLSX, DOCX &#8212; Max 25MB</div>
+        <input type="file" id="fileInput" style="display:none" multiple accept=".pdf,.xlsx,.xls,.docx,.doc">
+        <div class="upload-progress" id="uploadProgress"><div class="upload-progress-bar" id="uploadProgressBar"></div></div>
+      </div>
+      <div id="uploadedFiles" style="margin-top:12px"></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h"><h2>Uploaded Documents Log</h2></div>
+    <div class="card-b" style="padding:0;overflow-x:auto"><table>
+      <thead><tr><th>Date</th><th>Package</th><th>File</th><th>Status</th><th style="text-align:center">Download</th></tr></thead>
+      <tbody id="uploadLog"><tr><td colspan="5" style="text-align:center;color:var(--muted);padding:32px">No documents uploaded yet</td></tr></tbody>
+    </table></div>
+  </div>
+</div>
+
+<!-- ===================== TENDER DRAWINGS ===================== -->
+<div class="panel" id="panel-drawings">
+  <div class="card">
+    <div class="card-h"><h2>Architectural Drawings</h2><span class="badge b-indigo">Narrative Architects &#8212; N2407</span></div>
+    <div class="card-b" style="padding:0;overflow-x:auto"><table>
+      <thead><tr><th style="width:40px">#</th><th style="width:140px">Drawing</th><th>Description</th><th class="r" style="width:80px">Rev</th><th class="r" style="width:100px">Date</th><th style="width:100px;text-align:center">Download</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td style="font-weight:600;color:var(--indigo)">N2407_01</td><td>Lower Ground Storey</td><td class="r">T</td><td class="r">Dec 2025</td><td style="text-align:center"><a href="drawings/architect/N2407_IMMANUAL%20SEATIDES_01_LOWER%20GRND%20STOREY.pdf?v=3" target="_blank" class="btn btn-outline btn-sm">View PDF</a></td></tr>
+        <tr><td>2</td><td style="font-weight:600;color:var(--indigo)">N2407_02</td><td>Upper Ground Storey</td><td class="r">T</td><td class="r">Dec 2025</td><td style="text-align:center"><a href="drawings/architect/N2407_IMMANUAL%20SEATIDES_02_UPPER%20GRND%20STOREY.pdf?v=3" target="_blank" class="btn btn-outline btn-sm">View PDF</a></td></tr>
+        <tr><td>3</td><td style="font-weight:600;color:var(--indigo)">N2407_03</td><td>Roof Storey</td><td class="r">T</td><td class="r">Dec 2025</td><td style="text-align:center"><a href="drawings/architect/N2407_IMMANUAL%20SEATIDES_03_ROOF%20STOREY.pdf?v=3" target="_blank" class="btn btn-outline btn-sm">View PDF</a></td></tr>
+        <tr><td>4</td><td style="font-weight:600;color:var(--indigo)">N2407_04</td><td>Sections + Elevations</td><td class="r">T</td><td class="r">Dec 2025</td><td style="text-align:center"><a href="drawings/architect/N2407_IMMANUAL%20SEATIDES_04_SECT%2BELEVS.pdf?v=3" target="_blank" class="btn btn-outline btn-sm">View PDF</a></td></tr>
+        <tr><td>5</td><td style="font-weight:600;color:var(--indigo)">N2407_05</td><td>Elevations</td><td class="r">T</td><td class="r">Dec 2025</td><td style="text-align:center"><a href="drawings/architect/N2407_IMMANUAL%20SEATIDES_05_ELEVS.pdf?v=3" target="_blank" class="btn btn-outline btn-sm">View PDF</a></td></tr>
+        <tr><td>6</td><td style="font-weight:600;color:var(--indigo)">N2407_06</td><td>Window &amp; Door Schedule 01</td><td class="r">T</td><td class="r">Dec 2025</td><td style="text-align:center"><a href="drawings/architect/N2407_IMMANUAL%20SEATIDES_06_W%2BD01.pdf?v=3" target="_blank" class="btn btn-outline btn-sm">View PDF</a></td></tr>
+        <tr><td>7</td><td style="font-weight:600;color:var(--indigo)">N2407_07</td><td>Window &amp; Door Schedule 02</td><td class="r">T</td><td class="r">Dec 2025</td><td style="text-align:center"><a href="drawings/architect/N2407_IMMANUAL%20SEATIDES_07_W%2BD%2002.pdf?v=3" target="_blank" class="btn btn-outline btn-sm">View PDF</a></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <div class="card">
+    <div class="card-h"><h2>Structural / Engineer Drawings</h2><span class="badge b-purple">Sutherland &#8212; 9721</span></div>
+    <div class="card-b" style="padding:0;overflow-x:auto"><table>
+      <thead><tr><th style="width:40px">#</th><th style="width:140px">Drawing</th><th>Description</th><th class="r" style="width:80px">Rev</th><th class="r" style="width:100px">Date</th><th style="width:100px;text-align:center">Download</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td style="font-weight:600;color:var(--purple)">9721_S_DW001</td><td>Foundation Layout and Details</td><td class="r">T</td><td class="r">Dec 2025</td><td style="text-align:center"><a href="drawings/structural/9721_S_DW001%20-%20Foundation%20Layout%20and%20Details.pdf?v=3" target="_blank" class="btn btn-outline btn-sm">View PDF</a></td></tr>
+        <tr><td>2</td><td style="font-weight:600;color:var(--purple)">9721_S_DW002</td><td>Surface Bed Layout</td><td class="r">T</td><td class="r">Dec 2025</td><td style="text-align:center"><a href="drawings/structural/9721_S_DW002%20-%20Surface%20Bed%20Layout.pdf?v=3" target="_blank" class="btn btn-outline btn-sm">View PDF</a></td></tr>
+        <tr><td>3</td><td style="font-weight:600;color:var(--purple)">9721_S_DW003</td><td>First Floor and Roof Layout</td><td class="r">T</td><td class="r">Dec 2025</td><td style="text-align:center"><a href="drawings/structural/9721_S_DW003%20-%20First%20Floor%20and%20Roof%20Layout.pdf?v=3" target="_blank" class="btn btn-outline btn-sm">View PDF</a></td></tr>
+        <tr><td>4</td><td style="font-weight:600;color:var(--purple)">9721_S_DW004</td><td>Building Sections</td><td class="r">T</td><td class="r">Dec 2025</td><td style="text-align:center"><a href="drawings/structural/9721_S_DW004%20-%20Building%20Sections.pdf?v=3" target="_blank" class="btn btn-outline btn-sm">View PDF</a></td></tr>
+        <tr><td>5</td><td style="font-weight:600;color:var(--purple)">9721_S_DW005</td><td>Typical Brickwork Details</td><td class="r">T</td><td class="r">Dec 2025</td><td style="text-align:center"><a href="drawings/structural/9721_S_DW005%20-%20Typical%20Brickwork%20Details.pdf?v=3" target="_blank" class="btn btn-outline btn-sm">View PDF</a></td></tr>
+        <tr><td>6</td><td style="font-weight:600;color:var(--purple)">9721 Spec</td><td>Project Specification</td><td class="r">T</td><td class="r">Dec 2025</td><td style="text-align:center"><a href="drawings/structural/9721%20-%20Project%20Specification.pdf?v=3" target="_blank" class="btn btn-outline btn-sm">View PDF</a></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <div class="info-box">Tender drawings shown above. Construction drawings will be uploaded under Drawings &gt; Construction Drawings. Drawing revisions will be tracked with each issue.</div>
+</div>
+
+<!-- ===================== CONSTRUCTION DRAWINGS ===================== -->
+<div class="panel" id="panel-constdrawings">
+  <div class="card">
+    <div class="card-h"><h2>Construction Drawings</h2><span class="badge b-gold">Awaiting Issue</span></div>
+    <div class="card-b">
+      <div style="border:2px dashed var(--gold);border-radius:var(--r);padding:32px;text-align:center;background:var(--gold-d);margin-bottom:16px"><div style="font-size:2rem;margin-bottom:8px;opacity:0.4">&#128204;</div><h3 style="color:#8b6914;font-size:1rem;margin-bottom:6px">Construction Drawings Not Yet Issued</h3><p style="color:var(--muted);font-size:0.78rem;line-height:1.6">Construction issue drawings will be uploaded here once issued by the Architect and Engineer. Each drawing will be tracked with revision numbers.</p></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h"><h2>Upload Construction Drawing</h2></div>
+    <div class="card-b">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px">
+        <div><label style="font-size:0.66rem;font-weight:600;display:block;margin-bottom:4px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Discipline</label><select id="constDrawDiscipline" style="padding:9px 12px;border:1px solid var(--border-b);border-radius:4px;width:100%;font-size:0.78rem;background:#fff;color:var(--text);font-family:inherit;outline:none"><option>Architectural</option><option>Structural</option><option>Electrical</option><option>Mechanical</option><option>Other</option></select></div>
+        <div><label style="font-size:0.66rem;font-weight:600;display:block;margin-bottom:4px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Drawing No.</label><input type="text" id="constDrawNo" placeholder="e.g. A-101" style="padding:9px 12px;border:1px solid var(--border-b);border-radius:4px;width:100%;font-size:0.78rem;background:#fff;color:var(--text);font-family:inherit;outline:none"></div>
+        <div><label style="font-size:0.66rem;font-weight:600;display:block;margin-bottom:4px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Revision</label><select id="constDrawRev" style="padding:9px 12px;border:1px solid var(--border-b);border-radius:4px;width:100%;font-size:0.78rem;background:#fff;color:var(--text);font-family:inherit;outline:none"><option>Rev 0 &#8212; For Construction</option><option>Rev 1</option><option>Rev 2</option><option>Rev 3</option></select></div>
+      </div>
+      <div class="upload-zone" onclick="this.querySelector('input[type=file]').click()"><div class="icon">&#128204;</div><div class="upload-title">Upload Construction Drawing</div><div class="upload-sub">PDF</div><input type="file" style="display:none" accept=".pdf" onchange="handleSupabaseUpload(this,'drawings')"><div class="upload-progress"><div class="upload-progress-bar"></div></div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h"><h2>Construction Drawing Register</h2></div>
+    <div class="card-b" style="padding:0;overflow-x:auto"><table><thead><tr><th>Discipline</th><th>Drawing No.</th><th>Description</th><th>Revision</th><th>Date</th><th>Status</th><th style="text-align:center">Download</th></tr></thead><tbody id="constDrawLog"><tr><td colspan="7" style="text-align:center;color:var(--muted);padding:32px">No construction drawings issued yet.</td></tr></tbody></table></div>
+  </div>
+</div>
+
+<!-- ===================== PROGRAMME ===================== -->
+<div class="panel" id="panel-programme">
+  <div class="card">
+    <div class="card-h"><h2>Construction Programme</h2><span class="badge b-cyan">Schedule</span></div>
+    <div class="card-b">
+      <p style="font-size:0.82rem;color:var(--text2);margin-bottom:16px">The construction programme will be uploaded here once agreed between the builder and professional team.</p>
+      <div style="margin-bottom:16px"><label style="font-size:0.66rem;font-weight:600;display:block;margin-bottom:4px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Programme Version</label><select id="progVersion" style="padding:9px 12px;border:1px solid var(--border-b);border-radius:4px;width:100%;max-width:400px;font-size:0.78rem;background:#fff;color:var(--text);font-family:inherit;outline:none"><option>Rev 0 &#8212; Original Programme</option><option>Rev 1 &#8212; Updated Programme</option><option>Rev 2 &#8212; Revised Programme</option></select></div>
+      <div class="upload-zone" onclick="this.querySelector('input[type=file]').click()"><div class="icon">&#128197;</div><div class="upload-title">Upload Construction Programme</div><div class="upload-sub">PDF, XLSX, MPP</div><input type="file" style="display:none" accept=".pdf,.xlsx,.xls,.mpp" onchange="handleSupabaseUpload(this,'programme')"><div class="upload-progress"><div class="upload-progress-bar"></div></div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h"><h2>Programme History</h2></div>
+    <div class="card-b" style="padding:0;overflow-x:auto"><table><thead><tr><th>Version</th><th>Date Uploaded</th><th>Description</th><th>Status</th><th style="text-align:center">Download</th></tr></thead><tbody id="programmeLog"><tr><td colspan="5" style="text-align:center;color:var(--muted);padding:32px">No programme uploaded yet. The construction schedule will be uploaded once agreed with the builder.</td></tr></tbody></table></div>
+  </div>
+</div>
+
+<!-- ===================== PROGRAMME HISTORY ===================== -->
+<div class="panel" id="panel-proghistory">
+  <div class="card">
+    <div class="card-h"><h2>Programme Revision History</h2><span class="badge b-cyan">All Versions</span></div>
+    <div class="card-b" style="padding:0;overflow-x:auto"><table><thead><tr><th>Version</th><th>Date Uploaded</th><th>Description</th><th>Status</th><th style="text-align:center">Download</th></tr></thead><tbody id="progHistoryLog"><tr><td colspan="5" style="text-align:center;color:var(--muted);padding:32px">No programme revisions uploaded yet.</td></tr></tbody></table></div>
+  </div>
+</div>
+
+<!-- ===================== SITE MEETING MINUTES ===================== -->
+<div class="panel" id="panel-siteminutes">
+  <div class="card">
+    <div class="card-h"><h2>Site Meeting Minutes</h2><span class="badge b-indigo">Construction Phase</span></div>
+    <div class="card-b">
+      <p style="font-size:0.82rem;color:var(--text2);margin-bottom:16px">Upload and access site meeting minutes. Each entry is filed by meeting date and number.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+        <div><label style="font-size:0.66rem;font-weight:600;display:block;margin-bottom:4px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Meeting Number</label><input type="text" id="meetingNo" placeholder="e.g. Site Meeting 01" style="padding:9px 12px;border:1px solid var(--border-b);border-radius:4px;width:100%;font-size:0.78rem;background:#fff;color:var(--text);font-family:inherit;outline:none"></div>
+        <div><label style="font-size:0.66rem;font-weight:600;display:block;margin-bottom:4px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Meeting Date</label><input type="date" id="meetingDate" style="padding:9px 12px;border:1px solid var(--border-b);border-radius:4px;width:100%;font-size:0.78rem;background:#fff;color:var(--text);font-family:inherit;outline:none"></div>
+      </div>
+      <div class="upload-zone" onclick="this.querySelector('input[type=file]').click()"><div class="icon">&#128203;</div><div class="upload-title">Upload Meeting Minutes</div><div class="upload-sub">PDF, DOCX &#8212; signed minutes</div><input type="file" style="display:none" accept=".pdf,.docx,.doc" onchange="handleSupabaseUpload(this,'site-minutes')"><div class="upload-progress"><div class="upload-progress-bar"></div></div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h"><h2>Minutes Register</h2></div>
+    <div class="card-b" style="padding:0;overflow-x:auto"><table><thead><tr><th>No.</th><th>Date</th><th>Description</th><th>Status</th><th style="text-align:center">Download</th></tr></thead><tbody id="minutesLog"><tr><td colspan="5" style="text-align:center;color:var(--muted);padding:32px">No site meeting minutes uploaded yet. Minutes will appear here once construction begins.</td></tr></tbody></table></div>
+  </div>
+</div>
+
+<!-- ===================== SITE PHOTOGRAPHS ===================== -->
+<div class="panel" id="panel-photos">
+  <div class="card">
+    <div class="card-h"><h2>Site Photographs</h2><span class="badge b-green">Upload by Date</span></div>
+    <div class="card-b">
+      <p style="font-size:0.82rem;color:var(--text2);margin-bottom:16px">Upload site photographs grouped by date. All photos are filed chronologically for progress tracking.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+        <div><label style="font-size:0.66rem;font-weight:600;display:block;margin-bottom:4px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Photo Date</label><input type="date" id="photoDate" style="padding:9px 12px;border:1px solid var(--border-b);border-radius:4px;width:100%;font-size:0.78rem;background:#fff;color:var(--text);font-family:inherit;outline:none"></div>
+        <div><label style="font-size:0.66rem;font-weight:600;display:block;margin-bottom:4px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Description (optional)</label><input type="text" id="photoDesc" placeholder="e.g. Foundation excavation" style="padding:9px 12px;border:1px solid var(--border-b);border-radius:4px;width:100%;font-size:0.78rem;background:#fff;color:var(--text);font-family:inherit;outline:none"></div>
+      </div>
+      <div class="upload-zone" onclick="this.querySelector('input[type=file]').click()"><div class="icon">&#128247;</div><div class="upload-title">Upload Site Photos</div><div class="upload-sub">JPG, PNG &#8212; multiple files allowed</div><input type="file" style="display:none" accept="image/*" multiple onchange="handleSupabaseUpload(this,'photos')"><div class="upload-progress"><div class="upload-progress-bar"></div></div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h"><h2>Photo Gallery</h2></div>
+    <div class="card-b" style="padding:0;overflow-x:auto"><table><thead><tr><th>Date</th><th>Description</th><th>Files</th><th>Status</th><th style="text-align:center">View</th></tr></thead><tbody id="photoLog"><tr><td colspan="5" style="text-align:center;color:var(--muted);padding:32px">No site photographs uploaded yet. Photos will appear here once construction begins.</td></tr></tbody></table></div>
+  </div>
+</div>
+
+<!-- ===================== PAYMENT CERTIFICATES ===================== -->
+<div class="panel" id="panel-valuations">
+  <div class="card">
+    <div class="card-h"><h2>Valuations &amp; Payment Certificates</h2><span class="badge b-green">Payments</span></div>
+    <div class="card-b">
+      <p style="font-size:0.82rem;color:var(--text2);margin-bottom:16px">Monthly valuations and payment certificates for work completed. Each certificate includes the valuation, payment recommendation, and cumulative position.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px">
+        <div><label style="font-size:0.66rem;font-weight:600;display:block;margin-bottom:4px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Certificate No.</label><input type="text" id="certNo" placeholder="e.g. IPC 01" style="padding:9px 12px;border:1px solid var(--border-b);border-radius:4px;width:100%;font-size:0.78rem;background:#fff;color:var(--text);font-family:inherit;outline:none"></div>
+        <div><label style="font-size:0.66rem;font-weight:600;display:block;margin-bottom:4px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Valuation Date</label><input type="date" id="certDate" style="padding:9px 12px;border:1px solid var(--border-b);border-radius:4px;width:100%;font-size:0.78rem;background:#fff;color:var(--text);font-family:inherit;outline:none"></div>
+        <div><label style="font-size:0.66rem;font-weight:600;display:block;margin-bottom:4px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Amount (incl VAT)</label><input type="text" id="certAmount" placeholder="e.g. R 250,000" style="padding:9px 12px;border:1px solid var(--border-b);border-radius:4px;width:100%;font-size:0.78rem;background:#fff;color:var(--text);font-family:inherit;outline:none"></div>
+      </div>
+      <div class="upload-zone" onclick="this.querySelector('input[type=file]').click()"><div class="icon">&#128176;</div><div class="upload-title">Upload Payment Certificate</div><div class="upload-sub">PDF &#8212; signed certificate</div><input type="file" style="display:none" accept=".pdf,.xlsx,.xls" onchange="handleSupabaseUpload(this,'valuations')"><div class="upload-progress"><div class="upload-progress-bar"></div></div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h"><h2>Payment Certificate Register</h2></div>
+    <div class="card-b" style="padding:0;overflow-x:auto"><table><thead><tr><th>IPC No.</th><th>Date</th><th class="r">Work Done (ex VAT)</th><th class="r">Cumulative</th><th class="r">Net Due (incl VAT)</th><th>Status</th><th style="text-align:center">Download</th></tr></thead><tbody id="valuationLog"><tr><td colspan="7" style="text-align:center;color:var(--muted);padding:32px">No payment certificates issued yet. Valuations will be recorded here monthly during construction.</td></tr></tbody></table></div>
+  </div>
+</div>
+
+<!-- ===================== COST REPORTS ===================== -->
+<div class="panel" id="panel-costreports">
+  <div class="card">
+    <div class="card-h"><h2>Cost Reports</h2><span class="badge b-gold">Metric Edge</span></div>
+    <div class="card-b">
+      <p style="font-size:0.82rem;color:var(--text2);margin-bottom:16px">Monthly cost reports prepared by Metric Edge tracking expenditure against budget, variations, and projected final account.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+        <div><label style="font-size:0.66rem;font-weight:600;display:block;margin-bottom:4px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Report Number</label><input type="text" id="costReportNo" placeholder="e.g. Cost Report 01" style="padding:9px 12px;border:1px solid var(--border-b);border-radius:4px;width:100%;font-size:0.78rem;background:#fff;color:var(--text);font-family:inherit;outline:none"></div>
+        <div><label style="font-size:0.66rem;font-weight:600;display:block;margin-bottom:4px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Report Date</label><input type="date" id="costReportDate" style="padding:9px 12px;border:1px solid var(--border-b);border-radius:4px;width:100%;font-size:0.78rem;background:#fff;color:var(--text);font-family:inherit;outline:none"></div>
+      </div>
+      <div class="upload-zone" onclick="this.querySelector('input[type=file]').click()"><div class="icon">&#128200;</div><div class="upload-title">Upload Cost Report</div><div class="upload-sub">PDF, XLSX</div><input type="file" style="display:none" accept=".pdf,.xlsx,.xls" onchange="handleSupabaseUpload(this,'cost-reports')"><div class="upload-progress"><div class="upload-progress-bar"></div></div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h"><h2>Cost Report Register</h2></div>
+    <div class="card-b" style="padding:0;overflow-x:auto"><table><thead><tr><th>Report</th><th>Date</th><th>Period</th><th class="r">Expenditure to Date</th><th class="r">Projected Final</th><th style="text-align:center">Download</th></tr></thead><tbody id="costReportLog"><tr><td colspan="6" style="text-align:center;color:var(--muted);padding:32px">No cost reports issued yet. Reports will be uploaded monthly during construction.</td></tr></tbody></table></div>
+  </div>
+</div>
+
+<!-- ===================== VARIATIONS ===================== -->
+<div class="panel" id="panel-variations">
+  <div class="card">
+    <div class="card-h"><h2>Contract Variations</h2><span class="badge b-orange">Variation Orders</span></div>
+    <div class="card-b">
+      <p style="font-size:0.82rem;color:var(--text2);margin-bottom:16px">All contract variations, instructions, and scope changes are recorded and tracked here.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px">
+        <div><label style="font-size:0.66rem;font-weight:600;display:block;margin-bottom:4px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Variation No.</label><input type="text" id="varNo" placeholder="e.g. VO-001" style="padding:9px 12px;border:1px solid var(--border-b);border-radius:4px;width:100%;font-size:0.78rem;background:#fff;color:var(--text);font-family:inherit;outline:none"></div>
+        <div><label style="font-size:0.66rem;font-weight:600;display:block;margin-bottom:4px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Date</label><input type="date" id="varDate" style="padding:9px 12px;border:1px solid var(--border-b);border-radius:4px;width:100%;font-size:0.78rem;background:#fff;color:var(--text);font-family:inherit;outline:none"></div>
+        <div><label style="font-size:0.66rem;font-weight:600;display:block;margin-bottom:4px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Value (ex VAT)</label><input type="text" id="varValue" placeholder="e.g. R 15,000" style="padding:9px 12px;border:1px solid var(--border-b);border-radius:4px;width:100%;font-size:0.78rem;background:#fff;color:var(--text);font-family:inherit;outline:none"></div>
+      </div>
+      <div class="upload-zone" onclick="this.querySelector('input[type=file]').click()"><div class="icon">&#128196;</div><div class="upload-title">Upload Variation Order / Instruction</div><div class="upload-sub">PDF, DOCX, XLSX</div><input type="file" style="display:none" accept=".pdf,.docx,.doc,.xlsx,.xls" onchange="handleSupabaseUpload(this,'variations')"><div class="upload-progress"><div class="upload-progress-bar"></div></div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h"><h2>Variation Register</h2></div>
+    <div class="card-b" style="padding:0;overflow-x:auto"><table><thead><tr><th>VO No.</th><th>Date</th><th>Description</th><th class="r">Value (ex VAT)</th><th>Status</th><th style="text-align:center">Document</th></tr></thead><tbody id="variationLog"><tr><td colspan="6" style="text-align:center;color:var(--muted);padding:32px">No variations issued yet. Variation orders will be recorded here during construction.</td></tr></tbody></table></div>
+  </div>
+</div>
+
+</div><!-- end .content -->
+
+<footer>House Mansfield <footer>House Mansfield &#8212; Mansfield Residence &#8226; Project Dashboard &#8226; Powered by Metric Edge &#8226; 2026</footer>#8212; Mansfield Residence &#8226; Project Dashboard &#8226; Powered by Metric Edge &#8226; 2026</footer>
+
+</div><!-- end #appPage -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ========================================================================
+// SUPABASE INITIALIZATION
+// ========================================================================
+const SUPABASE_URL = 'https://cnygijmypuaeguxrwwjc.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNueWdpam15cHVhZWd1eHJ3d2pjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzODQ4MDAsImV4cCI6MjA4OTk2MDgwMH0.q_Z8WoT9wzDzkdMHUQwA0DBL0HI5VuvWvt11hM4SqeY';
+const STORAGE_BUCKET = 'project-files';
+const PROJECT_PREFIX = 'ME401';
+
+const { createClient } = supabase;
+const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// ========================================================================
+// TOAST NOTIFICATIONS
+// ========================================================================
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast ' + type + ' show';
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// ========================================================================
+// AUTH — LOGIN / LOGOUT / SESSION
+// ========================================================================
+async function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pw = document.getElementById('loginPassword').value;
+  const btn = document.getElementById('loginBtn');
+  const errEl = document.getElementById('loginError');
+  errEl.style.display = 'none';
+  if (!email || !pw) { errEl.textContent = 'Please enter email and password.'; errEl.style.display = 'block'; return; }
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Signing in...';
+  const { data, error } = await sb.auth.signInWithPassword({ email, password: pw });
+  btn.disabled = false; btn.textContent = 'Sign In';
+  if (error) { errEl.textContent = error.message; errEl.style.display = 'block'; return; }
+  showApp(data.user);
+}
+
+async function doLogout() {
+  await sb.auth.signOut();
+  document.getElementById('loginPage').style.display = 'flex';
+  document.getElementById('appPage').style.display = 'none';
+}
+
+function showApp(user) {
+  document.getElementById('loginPage').style.display = 'none';
+  document.getElementById('appPage').style.display = 'block';
+  document.getElementById('userEmail').textContent = user.email;
+  loadDocuments();
+}
+
+// Check session on load
+(async function checkSession() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (session && session.user) { showApp(session.user); }
+})();
+
+// Listen for auth changes
+sb.auth.onAuthStateChange((event, session) => {
+  if (event === 'SIGNED_OUT') {
+    document.getElementById('loginPage').style.display = 'flex';
+    document.getElementById('appPage').style.display = 'none';
+  }
+});
+
+// Enter key on password field
+document.getElementById('loginPassword').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+document.getElementById('loginEmail').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('loginPassword').focus(); });
+
+// ========================================================================
+// NAVIGATION
+// ========================================================================
+function navTo(id, el) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  const panel = document.getElementById('panel-' + id);
+  if (panel) panel.classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.nav-drop-item').forEach(d => d.classList.remove('active'));
+  if (el) {
+    el.classList.add('active');
+    const parent = el.closest('.nav-item');
+    if (parent) { const pb = parent.querySelector('.nav-btn'); if (pb) pb.classList.add('active'); }
+  }
+  document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('open'));
+  window.scrollTo(0, 0);
+}
+
+function toggleDrop(btn) {
+  const item = btn.closest('.nav-item');
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-item')) {
+    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('open'));
+  }
+});
+
+// ========================================================================
+// SUPABASE STORAGE — FILE UPLOAD
+// ========================================================================
+async function handleSupabaseUpload(input, category) {
+  if (!input.files || !input.files.length) return;
+  const zone = input.closest('.upload-zone');
+  const progressWrap = zone.querySelector('.upload-progress');
+  const progressBar = zone.querySelector('.upload-progress-bar');
+
+  for (const file of input.files) {
+    const filePath = PROJECT_PREFIX + '/' + category + '/' + Date.now() + '_' + file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+    if (progressWrap) { progressWrap.style.display = 'block'; progressBar.style.width = '30%'; }
+
+    const { data, error } = await sb.storage.from(STORAGE_BUCKET).upload(filePath, file, { upsert: true });
+    if (progressWrap) progressBar.style.width = '70%';
+
+    if (error) {
+      showToast('Upload failed: ' + error.message, 'error');
+      if (progressWrap) { progressWrap.style.display = 'none'; progressBar.style.width = '0%'; }
+      continue;
+    }
+
+    // Get description metadata from form fields
+    let desc = file.name;
+    if (category === 'site-minutes') desc = (document.getElementById('meetingNo')?.value || '') + ' - ' + file.name;
+    else if (category === 'photos') desc = (document.getElementById('photoDesc')?.value || 'Site photo') + ' - ' + file.name;
+    else if (category === 'valuations') desc = (document.getElementById('certNo')?.value || '') + ' - ' + file.name;
+    else if (category === 'cost-reports') desc = (document.getElementById('costReportNo')?.value || '') + ' - ' + file.name;
+    else if (category === 'variations') desc = (document.getElementById('varNo')?.value || '') + ' - ' + file.name;
+    else if (category === 'drawings') desc = (document.getElementById('constDrawNo')?.value || '') + ' Rev ' + (document.getElementById('constDrawRev')?.value?.split(' ')[0] || '0') + ' - ' + file.name;
+
+    // Insert document record
+    const { error: dbErr } = await sb.from('documents').insert({
+      project_id: null, // Will be set if projects table is seeded
+      category: category,
+      file_name: file.name,
+      file_path: filePath,
+      file_size: file.size,
+      file_type: file.name.split('.').pop().toLowerCase(),
+      description: desc,
+      status: 'active'
+    });
+
+    if (progressWrap) { progressBar.style.width = '100%'; }
+    setTimeout(() => { if (progressWrap) { progressWrap.style.display = 'none'; progressBar.style.width = '0%'; } }, 1000);
+
+    if (dbErr) {
+      console.warn('DB record failed (file still uploaded):', dbErr.message);
+    }
+    showToast(file.name + ' uploaded successfully');
+  }
+  loadDocuments();
+}
+
+// Legacy upload handler for quote buttons
+async function handleQuoteUpload(input, pkgId) {
+  if (!input.files || !input.files.length) return;
+  const file = input.files[0];
+  const filePath = PROJECT_PREFIX + '/quotes/' + pkgId + '_' + Date.now() + '_' + file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+
+  const { data, error } = await sb.storage.from(STORAGE_BUCKET).upload(filePath, file, { upsert: true });
+  if (error) { showToast('Upload failed: ' + error.message, 'error'); return; }
+
+  await sb.from('documents').insert({
+    project_id: null,
+    category: 'quotes',
+    subcategory: pkgId,
+    file_name: file.name,
+    file_path: filePath,
+    file_size: file.size,
+    file_type: file.name.split('.').pop().toLowerCase(),
+    description: pkgId + ' quote - ' + file.name,
+    status: 'active'
+  });
+
+  const cell = input.closest('td');
+  cell.innerHTML = '<span class="badge b-green">&#10003; ' + file.name + ' uploaded</span>';
+  showToast(pkgId + ' quote uploaded');
+  loadDocuments();
+}
+
+// ========================================================================
+// LOAD DOCUMENTS FROM SUPABASE
+// ========================================================================
+async function loadDocuments() {
+  const { data: docs, error } = await sb.from('documents').select('*').order('created_at', { ascending: false });
+  if (error || !docs) return;
+
+  // Populate upload log
+  const uploadLog = document.getElementById('uploadLog');
+  const quoteDocs = docs.filter(d => d.category === 'quotes');
+  if (quoteDocs.length > 0) {
+    uploadLog.innerHTML = '';
+    quoteDocs.forEach(d => {
+      const tr = document.createElement('tr');
+      const downloadBtn = '<a href="#" onclick="downloadFile(\'' + d.file_path + '\',\'' + d.file_name + '\');return false;" class="btn btn-outline btn-sm">Download</a>';
+      tr.innerHTML = '<td>' + new Date(d.created_at).toLocaleDateString('en-ZA') + '</td><td>' + (d.subcategory || d.category) + '</td><td>' + d.file_name + '</td><td><span class="badge b-green">Uploaded</span></td><td style="text-align:center">' + downloadBtn + '</td>';
+      uploadLog.appendChild(tr);
+    });
+  }
+
+  // Populate each category register
+  populateRegister('minutesLog', docs.filter(d => d.category === 'site-minutes'), ['created_at','created_at','file_name','status']);
+  populateRegister('photoLog', docs.filter(d => d.category === 'photos'), ['created_at','description','file_name','status']);
+  populateRegister('valuationLog', docs.filter(d => d.category === 'valuations'), ['description','created_at','','','','status']);
+  populateRegister('costReportLog', docs.filter(d => d.category === 'cost-reports'), ['description','created_at','','','']);
+  populateRegister('variationLog', docs.filter(d => d.category === 'variations'), ['description','created_at','file_name','','status']);
+  populateRegister('programmeLog', docs.filter(d => d.category === 'programme'), ['description','created_at','file_name','status']);
+  populateRegister('progHistoryLog', docs.filter(d => d.category === 'programme'), ['description','created_at','file_name','status']);
+  populateRegister('constDrawLog', docs.filter(d => d.category === 'drawings'), ['subcategory','file_name','description','','created_at','status']);
+}
+
+function populateRegister(logId, docs, fields) {
+  const log = document.getElementById(logId);
+  if (!log || docs.length === 0) return;
+  log.innerHTML = '';
+  docs.forEach(d => {
+    const tr = document.createElement('tr');
+    const date = new Date(d.created_at).toLocaleDateString('en-ZA');
+    const downloadBtn = '<a href="#" onclick="downloadFile(\'' + d.file_path + '\',\'' + d.file_name + '\');return false;" class="btn btn-outline btn-sm">Download</a>';
+    tr.innerHTML = '<td>' + (d.description || d.file_name) + '</td><td>' + date + '</td><td>' + d.file_name + '</td><td><span class="badge b-green">Uploaded</span></td><td style="text-align:center">' + downloadBtn + '</td>';
+    log.appendChild(tr);
+  });
+}
+
+async function downloadFile(filePath, fileName) {
+  const { data, error } = await sb.storage.from(STORAGE_BUCKET).createSignedUrl(filePath, 3600);
+  if (error) { showToast('Download error: ' + error.message, 'error'); return; }
+  window.open(data.signedUrl, '_blank');
+}
+
+// ========================================================================
+// UPLOAD ZONE — DRAG & DROP
+// ========================================================================
+const uz = document.getElementById('uploadZone');
+const fi = document.getElementById('fileInput');
+if (uz && fi) {
+  uz.addEventListener('dragover', e => { e.preventDefault(); uz.style.borderColor = 'var(--gold)'; uz.style.background = 'var(--gold-d)'; });
+  uz.addEventListener('dragleave', () => { uz.style.borderColor = ''; uz.style.background = ''; });
+  uz.addEventListener('drop', e => { e.preventDefault(); uz.style.borderColor = ''; uz.style.background = ''; handlePricingUpload(e.dataTransfer.files); });
+  fi.addEventListener('change', () => handlePricingUpload(fi.files));
+}
+
+async function handlePricingUpload(files) {
+  const pkg = document.getElementById('uploadPkg').value;
+  for (const file of files) {
+    const filePath = PROJECT_PREFIX + '/quotes/' + pkg.split(':')[0].trim() + '_' + Date.now() + '_' + file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+    const progressWrap = document.getElementById('uploadProgress');
+    const progressBar = document.getElementById('uploadProgressBar');
+    if (progressWrap) { progressWrap.style.display = 'block'; progressBar.style.width = '40%'; }
+
+    const { data, error } = await sb.storage.from(STORAGE_BUCKET).upload(filePath, file, { upsert: true });
+    if (progressWrap) progressBar.style.width = '80%';
+    if (error) { showToast('Upload failed: ' + error.message, 'error'); if (progressWrap) { progressWrap.style.display = 'none'; } continue; }
+
+    await sb.from('documents').insert({
+      project_id: null, category: 'quotes', subcategory: pkg.split(':')[0].trim(),
+      file_name: file.name, file_path: filePath, file_size: file.size,
+      file_type: file.name.split('.').pop().toLowerCase(),
+      description: pkg + ' - ' + file.name, status: 'active'
+    });
+    if (progressWrap) { progressBar.style.width = '100%'; setTimeout(() => { progressWrap.style.display = 'none'; progressBar.style.width = '0%'; }, 1000); }
+    showToast(file.name + ' uploaded for ' + pkg);
+  }
+  loadDocuments();
+}
+
+// ========================================================================
+// FINANCIAL DATA
+// ========================================================================
+// ME 401 House Mansfield — TBC: update from Phase 1 estimate
+const bills = [];
+const totalExVat = 0, markup = 0, inclMarkup = 0, vat = 0, inclVat = 0;
+const origTotalExVat = 0, revTotalExVat = 0;
+const origMarkup = 0, revMarkup = 0;
+const origInclMarkup = 0, revInclMarkup = 0;
+const origVat = 0, revVat = 0;
+const origInclVat = 0, revInclVat = 0;
+const totalSavingExVat = 0, totalSavingInclVat = 0;
+const pctSavingExVat = "0%";
+
+function R(n) { return 'R ' + Math.round(n).toLocaleString('en-ZA'); }
+function Rf(n) { if (n == null || n === 0) return '\u2014'; return 'R ' + n.toLocaleString('en-ZA', {minimumFractionDigits: 2, maximumFractionDigits: 2}); }
+function pct(n, t) { return ((n / t) * 100).toFixed(1) + '%'; }
+function fmt(n) { if (n == null) return '\u2014'; return 'R ' + n.toLocaleString('en-ZA', {minimumFractionDigits: 0, maximumFractionDigits: 0}); }
+
+// Bill comparison data
+// ME 401 — TBC: bill comparison data pending
+const billComparison = {};
+
+// ========================================================================
+// REVISED VS ORIGINAL RENDERER
+// ========================================================================
+function renderRevised() {
+  const filter = document.getElementById('revBillFilter').value;
+  const body = document.getElementById('revisedBody');
+  body.innerHTML = '';
+  const billKeys = Object.keys(billComparison);
+  let changedCount = 0;
+
+  billKeys.forEach(billId => {
+    if (filter !== 'all') {
+      if (filter === 'EW') { if (billId !== 'EW-1' && billId !== 'EW-2') return; }
+      else { if (billId !== filter) return; }
+    }
+    const bc = billComparison[billId];
+    const displayBill = billId.startsWith('EW') ? billId.replace('EW-', 'EW.') : billId;
+    const bSav = bc.origTotal - bc.revTotal;
+    const hasChanged = Math.abs(bSav) > 0.01;
+    if (hasChanged) changedCount++;
+
+    const hdr = document.createElement('tr');
+    hdr.className = 'bill-header';
+    hdr.style.cursor = 'default';
+    hdr.innerHTML = '<td colspan="5"><span style="color:var(--indigo);font-weight:700">Bill ' + displayBill + '</span> \u2014 ' + bc.title + '</td><td></td><td class="r" style="white-space:nowrap">' + Rf(bc.origTotal) + '</td><td></td><td class="r" style="white-space:nowrap;color:' + (bc.revTotal < bc.origTotal ? 'var(--green)' : 'var(--text)') + ';font-weight:700">' + Rf(bc.revTotal) + '</td><td class="r" style="white-space:nowrap;color:' + (bSav > 0 ? 'var(--green)' : bSav < 0 ? 'var(--red)' : 'var(--muted)') + ';font-weight:600">' + (bSav !== 0 ? Rf(bSav) : '\u2014') + '</td>';
+    body.appendChild(hdr);
+  });
+
+  // Grand total
+  const gt = document.createElement('tr');
+  gt.className = 'gt';
+  const gSav = origTotalExVat - revTotalExVat;
+  gt.innerHTML = '<td></td><td></td><td>TOTAL ex VAT</td><td></td><td></td><td></td><td class="r" style="white-space:nowrap">' + Rf(origTotalExVat) + '</td><td></td><td class="r" style="white-space:nowrap;color:#8b6914">' + Rf(revTotalExVat) + '</td><td class="r" style="white-space:nowrap;color:var(--green)">' + Rf(gSav) + '</td>';
+  body.appendChild(gt);
+
+  document.getElementById('revChangedCount').textContent = changedCount + ' bills with changes';
+
+  // Summary body
+  const sumBody = document.getElementById('revisedSummaryBody');
+  sumBody.innerHTML = '';
+  const sumRows = [
+    ['Total ex VAT', origTotalExVat, revTotalExVat],
+    ['Markup @ 7.5%', origMarkup, revMarkup],
+    ['Total incl. Markup', origInclMarkup, revInclMarkup],
+    ['VAT @ 15%', origVat, revVat],
+    ['TOTAL incl. VAT', origInclVat, revInclVat]
+  ];
+  sumRows.forEach((sr, i) => {
+    const tr = document.createElement('tr');
+    if (i === sumRows.length - 1) tr.className = 'gt';
+    const sv = sr[1] - sr[2]; const p = sr[1] > 0 ? ((sv / sr[1]) * 100).toFixed(1) + '%' : '\u2014';
+    const c = sv > 0 ? 'var(--green)' : sv < 0 ? 'var(--red)' : '';
+    tr.innerHTML = '<td style="padding-left:18px;font-weight:' + (i === sumRows.length - 1 ? '800' : '500') + '">' + sr[0] + '</td><td class="r" style="white-space:nowrap">' + Rf(sr[1]) + '</td><td class="r" style="white-space:nowrap;font-weight:700;color:' + (i === sumRows.length - 1 ? '#8b6914' : 'var(--text)') + '">' + Rf(sr[2]) + '</td><td class="r" style="white-space:nowrap;color:' + c + ';font-weight:600">' + (sv !== 0 ? Rf(sv) : '\u2014') + '</td><td class="r" style="white-space:nowrap;color:' + c + '">' + (sv !== 0 ? p : '\u2014') + '</td>';
+    sumBody.appendChild(tr);
+  });
+}
+try { renderRevised(); } catch (e) { console.error('renderRevised error:', e); }
+
+// ========================================================================
+// PROCUREMENT PACKS
+// ========================================================================
+// ME 401 — TBC: procurement packages pending contractor finalisation
+const packages = [];
+
+function buildPkgCards() {
+  const c = document.getElementById('pkgCards');
+  let h = '';
+  packages.forEach(pkg => {
+    const sc = pkg.status === 'Quoted' ? 'b-green' : pkg.status === 'For Pricing' ? 'b-gold' : pkg.status === 'Provisional' ? 'b-purple' : 'b-orange';
+    h += '<div class="pkg-card"><div class="pkg-top"><div><div style="display:flex;align-items:center;gap:8px"><span class="badge b-indigo">' + pkg.id + '</span><h3>' + pkg.name + '</h3></div><div class="pkg-meta"><span>' + pkg.billRef + '</span><span style="color:var(--border-b)">\u00B7</span><span>' + pkg.supplier + '</span><span style="color:var(--border-b)">\u00B7</span><span class="badge ' + sc + '">' + pkg.status + '</span></div></div><div class="pkg-amount">' + (pkg.amount ? fmt(pkg.amount) : 'To Be Priced') + '</div></div>';
+    h += '<div class="pkg-body"><div><div class="pkg-section-label">Scope of Work</div><ul class="scope-list">' + pkg.scope.map(s => '<li>' + s + '</li>').join('') + '</ul></div><div><div class="pkg-section-label">Exclusions</div><ul class="scope-list">' + pkg.excludes.map(s => '<li>' + s + '</li>').join('') + '</ul><div class="pkg-section-label" style="margin-top:12px">Drawings (' + pkg.fileCount + ' files)</div><div class="drawing-pills">' + pkg.drawings.map(d => '<span class="drawing-pill">' + d + '</span>').join('') + '</div></div></div>';
+    h += '<div class="pkg-footer"><a href="' + pkg.zipFile + '" download class="btn btn-download btn-sm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download Tender Pack (.zip)</a></div></div>';
+  });
+  c.innerHTML = h;
+}
+try { buildPkgCards(); } catch (e) { console.error('buildPkgCards error:', e); }
+
+// ========================================================================
+// CHARTS
+// ========================================================================
+// ME 401 — Charts: will render once financial data is populated
+try {
+  Chart.defaults.color = '#888888';
+  Chart.defaults.borderColor = 'rgba(0,0,0,0.06)';
+  Chart.defaults.font.family = 'Inter, sans-serif';
+  Chart.defaults.font.size = 11;
+
+  // Charts initialised but empty — populate when estimate data is available
+  if (bills.length > 0) {
+    new Chart(document.getElementById('chartHighLevel'), {type:'doughnut',data:{labels:bills.map(b=>b.name),datasets:[{data:bills.map(b=>b.amt),backgroundColor:bills.map(b=>b.color),borderWidth:0,hoverOffset:8}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{padding:12,usePointStyle:true,pointStyleWidth:8,font:{size:10}}},tooltip:{callbacks:{label:ctx=>ctx.label+': '+R(ctx.raw)}}},cutout:'55%'}});
+    new Chart(document.getElementById('chartTrades'), {type:'bar',data:{labels:bills.map(b=>'Bill '+b.id),datasets:[{data:bills.map(b=>b.amt),backgroundColor:bills.map(b=>b.color),borderRadius:4,barThickness:18}]},options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>R(ctx.raw)}}},scales:{x:{ticks:{callback:v=>'R'+(v/1000).toFixed(0)+'k'},grid:{color:'rgba(0,0,0,0.04)'}},y:{grid:{display:false},ticks:{font:{size:9}}}}}});
+  }
+
+  const subData = [];
+  if (subData.length > 0) {
+    new Chart(document.getElementById('chartSubPie'), {type:'doughnut',data:{labels:subData.map(s=>s.n),datasets:[{data:subData.map(s=>s.a),backgroundColor:subData.map(s=>s.c),borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'45%',plugins:{legend:{position:'right',labels:{padding:8,usePointStyle:true,pointStyleWidth:6,font:{size:9}}},tooltip:{callbacks:{label:ctx=>ctx.label+': '+R(ctx.raw)}}}}});
+    new Chart(document.getElementById('chartSubVsBuilder'), {type:'doughnut',data:{labels:["Builder's Measured",'Subcontract','Provisional Sums','External Works','Preliminaries'],datasets:[{data:[0,0,0,0,0],backgroundColor:['#0891b2','#dc2626','#c8a84e','#7c3aed','#4a5568'],borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'50%',plugins:{legend:{position:'right',labels:{padding:8,usePointStyle:true,pointStyleWidth:6,font:{size:9}}}}}});
+  }
+
+  const billKeysForChart = Object.keys(billComparison);
+  if (billKeysForChart.length > 0) {
+    new Chart(document.getElementById('chartRevised'), {type:'bar',data:{labels:billKeysForChart.map(k=>billComparison[k].title),datasets:[{label:'Original',data:billKeysForChart.map(k=>billComparison[k].origTotal),backgroundColor:'rgba(74,85,104,0.5)',borderRadius:3,barThickness:10},{label:'Revised',data:billKeysForChart.map(k=>billComparison[k].revTotal),backgroundColor:'rgba(22,163,74,0.5)',borderRadius:3,barThickness:10}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{padding:12,usePointStyle:true,font:{size:10}}},tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+R(ctx.raw)}}},scales:{x:{grid:{display:false},ticks:{font:{size:8},maxRotation:45}},y:{ticks:{callback:v=>'R'+(v/1000).toFixed(0)+'k'},grid:{color:'rgba(0,0,0,0.04)'}}}}});
+    new Chart(document.getElementById('chartRevisedWaterfall'), {type:'bar',data:{labels:['Original','Saving','Revised','Markup','VAT','Total incl'],datasets:[{data:[origInclVat,totalSavingInclVat,revInclVat,revMarkup,revVat,revInclVat],backgroundColor:['#4a5568','#16a34a','#0891b2','#c8a84e','#ea580c','#16a34a'],borderRadius:4,barThickness:36}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>R(ctx.raw)}}},scales:{y:{ticks:{callback:v=>'R'+(v/1000000).toFixed(1)+'M'},grid:{color:'rgba(0,0,0,0.04)'}},x:{grid:{display:false},ticks:{font:{size:9}}}}}});
+  }
+
+} catch (e) { console.error('Charts error:', e); }
+</script>
+</body>
+</html>
