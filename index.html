@@ -354,8 +354,9 @@ footer { text-align: center; padding: 20px; font-size: 0.64rem; color: var(--mut
   <div class="nav-item">
     <button class="nav-btn" onclick="toggleDrop(this)">Procurement <span class="arrow">&#9662;</span></button>
     <div class="nav-dropdown">
-      <button class="nav-drop-item" onclick="navTo('packages',this)">Procurement Packs</button>
-      <button class="nav-drop-item" onclick="navTo('subcon',this)">Subcontractors</button>
+      <button class="nav-drop-item" onclick="navTo('packages',this)">Phase 1: White Box Packages</button>
+      <button class="nav-drop-item" onclick="navTo('subcon',this)">Phase 1: Direct Appointments</button>
+      <button class="nav-drop-item" onclick="navTo('phase2pkg',this)">Phase 2: Future Packages</button>
       <button class="nav-drop-item" onclick="navTo('uploads',this)">Upload Pricing</button>
     </div>
   </div>
@@ -483,73 +484,178 @@ footer { text-align: center; padding: 20px; font-size: 0.64rem; color: var(--mut
 <!-- ===================== ORIGINAL SUBMISSION ===================== -->
 <div class="panel" id="panel-submission">
   <div class="card">
-    <div class="card-h"><h2>Original Tender Submission</h2><span class="badge b-gold">Pending</span></div>
+    <div class="card-h"><h2>Tender Documentation</h2><span class="badge b-green">Rev E &#8212; 7 April 2026</span></div>
     <div class="card-b">
-      <p style="font-size:0.82rem;color:var(--text2);margin-bottom:20px;line-height:1.6">Tender submission documents will be uploaded once the tender process is underway.</p>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px">
-        <div style="background:var(--elevated);border:1px solid var(--border);border-radius:var(--r);padding:24px;text-align:center"><div style="font-size:2rem;margin-bottom:8px;opacity:0.4">&#128196;</div><div style="font-weight:700;font-size:0.88rem;margin-bottom:4px">Cover Letter &amp; Report</div><div style="font-size:0.72rem;color:var(--muted);margin-bottom:14px">Project Overview, Scope &amp; Conditions</div><span class="badge b-gold">Pending</span></div>
-        <div style="background:var(--elevated);border:1px solid var(--border);border-radius:var(--r);padding:24px;text-align:center"><div style="font-size:2rem;margin-bottom:8px;opacity:0.4">&#128200;</div><div style="font-weight:700;font-size:0.88rem;margin-bottom:4px">Bill of Quantities (PDF)</div><div style="font-size:0.72rem;color:var(--muted);margin-bottom:14px">Phase 1 White Box BOQ</div><span class="badge b-gold">Pending</span></div>
-        <div style="background:var(--elevated);border:1px solid var(--border);border-radius:var(--r);padding:24px;text-align:center"><div style="font-size:2rem;margin-bottom:8px;opacity:0.4">&#127970;</div><div style="font-weight:700;font-size:0.88rem;margin-bottom:4px">Contractor Portfolio</div><div style="font-size:0.72rem;color:var(--muted);margin-bottom:14px">TBC &#8212; contractor being finalised</div><span class="badge b-gold">Pending</span></div>
+      <p style="font-size:0.82rem;color:var(--text2);margin-bottom:20px;line-height:1.6">Tender document completed to Rev E. Tender on hold pending client design review. Key documents available for download below.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
+        <div style="background:var(--elevated);border:1px solid var(--border);border-radius:var(--r);padding:24px;text-align:center"><div style="font-size:2rem;margin-bottom:8px;opacity:0.4">&#128196;</div><div style="font-weight:700;font-size:0.85rem;margin-bottom:4px">Tender Document Rev E</div><div style="font-size:0.72rem;color:var(--muted);margin-bottom:14px">JBCC PBA 6.2 &#8212; 22 sections</div><a href="#" onclick="downloadFile('ME401/contract/House_Mansfield_Tender_Document_Rev_E.docx','House_Mansfield_Tender_Document_Rev_E.docx');return false;" class="btn btn-download btn-sm">Download</a></div>
+        <div style="background:var(--elevated);border:1px solid var(--border);border-radius:var(--r);padding:24px;text-align:center"><div style="font-size:2rem;margin-bottom:8px;opacity:0.4">&#128200;</div><div style="font-weight:700;font-size:0.85rem;margin-bottom:4px">White Box BOQ (Phase 1)</div><div style="font-size:0.72rem;color:var(--muted);margin-bottom:14px">Stage 4 Budget &#8212; R 5,588,569</div><a href="#" onclick="downloadFile('ME401/contract/House_Mansfield_White_Box_Phase1.pdf','House_Mansfield_White_Box_Phase1.pdf');return false;" class="btn btn-download btn-sm">Download</a></div>
+        <div style="background:var(--elevated);border:1px solid var(--border);border-radius:var(--r);padding:24px;text-align:center"><div style="font-size:2rem;margin-bottom:8px;opacity:0.4">&#127758;</div><div style="font-weight:700;font-size:0.85rem;margin-bottom:4px">Geotechnical Report</div><div style="font-size:0.72rem;color:var(--muted);margin-bottom:14px">B24279 &#8212; EcoStruKt / Kelvin Nair</div><a href="#" onclick="downloadFile('ME401/contract/B24279_Geotech_report.pdf','B24279_Geotech_report.pdf');return false;" class="btn btn-download btn-sm">Download</a></div>
+        <div style="background:var(--elevated);border:1px solid var(--border);border-radius:var(--r);padding:24px;text-align:center"><div style="font-size:2rem;margin-bottom:8px;opacity:0.4">&#9888;</div><div style="font-weight:700;font-size:0.85rem;margin-bottom:4px">H&amp;S Specification</div><div style="font-size:0.72rem;color:var(--muted);margin-bottom:14px">Extreme Safety Rev04 &#8212; 2026</div><a href="#" onclick="downloadFile('ME401/contract/House_Mansfield_HS_Specification.pdf','House_Mansfield_HS_Specification.pdf');return false;" class="btn btn-download btn-sm">Download</a></div>
+        <div style="background:var(--elevated);border:1px solid var(--border);border-radius:var(--r);padding:24px;text-align:center"><div style="font-size:2rem;margin-bottom:8px;opacity:0.4">&#128202;</div><div style="font-weight:700;font-size:0.85rem;margin-bottom:4px">Budget Comparison</div><div style="font-size:0.72rem;color:var(--muted);margin-bottom:14px">Full Phase comparison &#8212; April 2026</div><a href="#" onclick="downloadFile('ME401/contract/ME401_Budget_Comparison_Full.xlsx','ME401_Budget_Comparison_Full.xlsx');return false;" class="btn btn-download btn-sm">Download</a></div>
+        <div style="background:var(--elevated);border:1px solid var(--border);border-radius:var(--r);padding:24px;text-align:center"><div style="font-size:2rem;margin-bottom:8px;opacity:0.4">&#128209;</div><div style="font-weight:700;font-size:0.85rem;margin-bottom:4px">Budget Evolution Report</div><div style="font-size:0.72rem;color:var(--muted);margin-bottom:14px">From R9.29M to R9.85M explained</div><a href="#" onclick="downloadFile('ME401/contract/ME401_Budget_Evolution_Report.pdf','ME401_Budget_Evolution_Report.pdf');return false;" class="btn btn-download btn-sm">Download</a></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ===================== SUBCONTRACTORS ===================== -->
+<!-- ===================== PHASE 1: DIRECT APPOINTMENTS ===================== -->
 <div class="panel" id="panel-subcon">
-  <div class="mg" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr))">
-    <div class="m indigo"><div class="m-label">Direct Packages (Phase 1)</div><div class="m-value">R 2,491,145</div><div class="m-sub">22 packages identified</div></div>
-    <div class="m green"><div class="m-label">Selected Subs (via MC)</div><div class="m-value" style="color:var(--green)">4</div><div class="m-sub">Piling, Steel, Aluminium, Balustrades</div></div>
-    <div class="m gold"><div class="m-label">Largest Trade</div><div class="m-value" style="color:#8b6914">R 1,127,500</div><div class="m-sub">Aluminium Windows &amp; Doors</div></div>
+  <div class="mg" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr))">
+    <div class="m indigo"><div class="m-label">Direct Packages Total</div><div class="m-value">R 2,491,145</div><div class="m-sub">Phase 1 &#8212; Employer appointed</div></div>
+    <div class="m green"><div class="m-label">First Fix Trades</div><div class="m-value" style="color:var(--green)">3</div><div class="m-sub">Electrical, Plumbing, HVAC</div></div>
+    <div class="m gold"><div class="m-label">Finishing Trades</div><div class="m-value" style="color:#8b6914">15+</div><div class="m-sub">Ceilings, tiling, paint, kitchen etc.</div></div>
   </div>
+
   <div class="card">
-    <div class="card-h"><h2>Current Subcontractor Pricing</h2><span class="badge b-gold">Prices under review &#8212; not yet confirmed</span></div>
+    <div class="card-h"><h2>First Fix Trades &#8212; Employer Direct Appointments</h2><span class="badge b-orange">Programme Interface Required</span></div>
+    <div class="card-b">
+      <div class="info-box" style="margin-bottom:16px">&#9888; These trades require access during the main contract period for first fix installations. Main contractor must allow minimum 10 working days notice per trade. If delay exceeds 10 working days &#8594; main contractor entitled to EOT (no cost).</div>
+      <div style="overflow-x:auto"><table>
+        <thead><tr><th>Code</th><th>Trade</th><th>First Fix Scope</th><th>Timing</th><th class="r">Budget (ex VAT)</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge b-indigo">DC-01</span></td><td><strong>Electrical Installation</strong></td><td>Conduits in slabs/walls, earth leakage, DB positions, cable trays in roof</td><td>Before/during frame; before plastering</td><td class="r" style="font-weight:700">R 220,000</td><td><span class="badge b-gold">To Appoint</span></td></tr>
+          <tr style="border:none"><td></td><td colspan="5" style="padding:2px 14px 8px;font-size:0.72rem;color:var(--muted)">Breakdown: Installation R170,000 + Light fittings R25,000 + Plugs &amp; switches R25,000</td></tr>
+          <tr><td><span class="badge b-indigo">DC-02</span></td><td><strong>Plumbing Installation</strong></td><td>Hot/cold pipes, geyser connections, soil/waste pipes below slab, vertical stacks</td><td>Before plastering; before screeds</td><td class="r" style="font-weight:700">R 164,180</td><td><span class="badge b-gold">To Appoint</span></td></tr>
+          <tr><td><span class="badge b-indigo">DC-03</span></td><td><strong>HVAC / Air-Conditioning</strong></td><td>Refrigerant pipe runs, condensate drainage, penetrations through structure</td><td>Before plastering; during frame</td><td class="r" style="font-weight:700">R 150,000</td><td><span class="badge b-gold">To Appoint</span></td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><h2>Finishing Trades &#8212; Employer Direct Appointments</h2><span class="badge b-gold">Post White Box completion</span></div>
     <div class="card-b" style="padding:0;overflow-x:auto;-webkit-overflow-scrolling:touch"><table>
-      <thead><tr><th>Package</th><th>Description</th><th>Supplier</th><th class="r">Amount (ex VAT)</th><th>Status</th><th style="width:220px;text-align:center">Quote</th></tr></thead>
+      <thead><tr><th>Code</th><th>Trade / Package</th><th class="r">Budget (ex VAT)</th><th>Status</th></tr></thead>
       <tbody>
-        <tr><td>SP-01</td><td>Timber Deck &amp; Staircase</td><td>Big Decks</td><td class="r">R 103,655</td><td><span class="badge b-green">Quoted</span></td><td style="text-align:center"><a href="quotes/SP-01_Big_Decks.pdf?v=3" target="_blank" class="btn btn-outline btn-sm" style="margin-right:4px">View</a><label class="btn btn-sm btn-primary" style="cursor:pointer;margin:0"><input type="file" accept=".pdf,.xlsx,.docx" style="display:none" onchange="handleQuoteUpload(this,'SP-01')">Upload New</label></td></tr>
-        <tr><td>SP-02</td><td>Roof Structure &#8212; Supply &amp; Install</td><td>Seacon Roofing</td><td class="r">R 477,691</td><td><span class="badge b-green">Quoted</span></td><td style="text-align:center"><a href="quotes/SP-02_Seacon_Roofing.pdf?v=3" target="_blank" class="btn btn-outline btn-sm" style="margin-right:4px">View</a><label class="btn btn-sm btn-primary" style="cursor:pointer;margin:0"><input type="file" accept=".pdf,.xlsx,.docx" style="display:none" onchange="handleQuoteUpload(this,'SP-02')">Upload New</label></td></tr>
-        <tr><td>SP-03</td><td>Aluminium Windows &amp; Doors</td><td>GT Aluminium</td><td class="r">R 302,124</td><td><span class="badge b-green">Quoted</span></td><td style="text-align:center"><a href="quotes/SP-03_GT_Aluminium.pdf?v=3" target="_blank" class="btn btn-outline btn-sm" style="margin-right:4px">View</a><label class="btn btn-sm btn-primary" style="cursor:pointer;margin:0"><input type="file" accept=".pdf,.xlsx,.docx" style="display:none" onchange="handleQuoteUpload(this,'SP-03')">Upload New</label></td></tr>
-        <tr><td>SP-05</td><td>Metal Palisade / Gate</td><td>RSW Engineering</td><td class="r">R 38,511</td><td><span class="badge b-green">Quoted</span></td><td style="text-align:center"><a href="quotes/SP-05_SP-06_RSW_Engineering.pdf?v=3" target="_blank" class="btn btn-outline btn-sm" style="margin-right:4px">View</a><label class="btn btn-sm btn-primary" style="cursor:pointer;margin:0"><input type="file" accept=".pdf,.xlsx,.docx" style="display:none" onchange="handleQuoteUpload(this,'SP-05')">Upload New</label></td></tr>
-        <tr><td>SP-06</td><td>Balustrades</td><td>RSW Engineering</td><td class="r">R 17,557</td><td><span class="badge b-green">Quoted</span></td><td style="text-align:center"><a href="quotes/SP-05_SP-06_RSW_Engineering.pdf?v=3" target="_blank" class="btn btn-outline btn-sm" style="margin-right:4px">View</a><label class="btn btn-sm btn-primary" style="cursor:pointer;margin:0"><input type="file" accept=".pdf,.xlsx,.docx" style="display:none" onchange="handleQuoteUpload(this,'SP-06')">Upload New</label></td></tr>
-        <tr><td>SP-07</td><td>Rainwater Goods</td><td>Gutter Brigade</td><td class="r">R 29,700</td><td><span class="badge b-green">Quoted</span></td><td style="text-align:center"><a href="quotes/SP-07_Gutter_Brigade.pdf?v=3" target="_blank" class="btn btn-outline btn-sm" style="margin-right:4px">View</a><label class="btn btn-sm btn-primary" style="cursor:pointer;margin:0"><input type="file" accept=".pdf,.xlsx,.docx" style="display:none" onchange="handleQuoteUpload(this,'SP-07')">Upload New</label></td></tr>
-        <tr><td>SP-11</td><td>Electrical Installation</td><td>CW Electrical</td><td class="r">R 287,405</td><td><span class="badge b-green">Quoted</span></td><td style="text-align:center"><a href="quotes/SP-11_CW_Electrical.pdf?v=3" target="_blank" class="btn btn-outline btn-sm" style="margin-right:4px">View</a><label class="btn btn-sm btn-primary" style="cursor:pointer;margin:0"><input type="file" accept=".pdf,.xlsx,.docx" style="display:none" onchange="handleQuoteUpload(this,'SP-11')">Upload New</label></td></tr>
-        <tr><td>SP-11b</td><td>Three Phase Upgrade (Optional)</td><td>CW Electrical</td><td class="r">R 46,400</td><td><span class="badge b-indigo">Optional</span></td><td style="text-align:center"><span class="btn btn-outline btn-sm" style="opacity:0.4;cursor:default">Incl. above</span></td></tr>
-        <tr><td>SP-08</td><td>Carpet (Floor Coverings)</td><td>Church to procure</td><td class="r">R 98,000</td><td><span class="badge b-cyan">Pack Ready</span></td><td style="text-align:center"><a href="quotes/SP-08_Dave_Moon_Carpets.pdf?v=3" target="_blank" class="btn btn-outline btn-sm" style="margin-right:4px">View</a><label class="btn btn-sm btn-primary" style="cursor:pointer;margin:0"><input type="file" accept=".pdf,.xlsx,.docx" style="display:none" onchange="handleQuoteUpload(this,'SP-08')">Upload New</label></td></tr>
-        <tr><td>SP-09</td><td>Decorative/Self-levelling Screed</td><td>Subcontractor</td><td class="r">R 50,460</td><td><span class="badge b-gold">For Pricing</span></td><td style="text-align:center"><a href="quotes/SP-09_Floor_Screeds.pdf?v=3" target="_blank" class="btn btn-outline btn-sm" style="margin-right:4px">View</a><label class="btn btn-sm btn-primary" style="cursor:pointer;margin:0"><input type="file" accept=".pdf,.xlsx,.docx" style="display:none" onchange="handleQuoteUpload(this,'SP-09')">Upload New</label></td></tr>
+        <tr><td>DC-04</td><td>Ceilings, cornices &amp; insulation</td><td class="r">R 420,410</td><td><span class="badge b-gold">To Appoint</span></td></tr>
+        <tr><td>DC-05</td><td>Floor coverings (laminate)</td><td class="r">R 39,200</td><td><span class="badge b-gold">To Appoint</span></td></tr>
+        <tr><td>DC-06</td><td>Tiling (floors, walls, splashbacks)</td><td class="r">R 188,550</td><td><span class="badge b-gold">To Appoint</span></td></tr>
+        <tr><td>DC-07</td><td>Internal doors &amp; skirtings</td><td class="r">R 67,500</td><td><span class="badge b-gold">To Appoint</span></td></tr>
+        <tr><td>DC-08</td><td>Paintwork (internal &amp; external)</td><td class="r">R 97,890</td><td><span class="badge b-gold">To Appoint</span></td></tr>
+        <tr><td>DC-09</td><td>Plastering (balance)</td><td class="r">R 46,665</td><td><span class="badge b-gold">To Appoint</span></td></tr>
+        <tr><td>DC-10</td><td>Kitchen (supply &amp; install)</td><td class="r">R 275,000</td><td><span class="badge b-purple">Provisional Sum</span></td></tr>
+        <tr><td>DC-11</td><td>Built-in cupboards</td><td class="r">R 60,000</td><td><span class="badge b-purple">Provisional Sum</span></td></tr>
+        <tr><td>DC-12</td><td>Sanware, brassware, geysers, heat pump</td><td class="r">R 180,000</td><td><span class="badge b-purple">Provisional Sum</span></td></tr>
+        <tr><td>DC-13</td><td>Ironmongery</td><td class="r">R 30,000</td><td><span class="badge b-purple">Provisional Sum</span></td></tr>
+        <tr><td>DC-14</td><td>Shower doors</td><td class="r">R 25,000</td><td><span class="badge b-purple">Provisional Sum</span></td></tr>
+        <tr><td>DC-15</td><td>Mirrors</td><td class="r">R 7,500</td><td><span class="badge b-purple">Provisional Sum</span></td></tr>
+        <tr><td>DC-16</td><td>Bathroom accessories</td><td class="r">R 15,000</td><td><span class="badge b-purple">Provisional Sum</span></td></tr>
+        <tr><td>DC-17</td><td>Bar construction</td><td class="r">R 30,000</td><td><span class="badge b-purple">Provisional Sum</span></td></tr>
+        <tr><td>DC-18</td><td>Landscaping</td><td class="r">R 30,000</td><td><span class="badge b-purple">Provisional Sum</span></td></tr>
+        <tr><td>DC-19</td><td>Fireplace</td><td class="r">R 65,000</td><td><span class="badge b-purple">Provisional Sum</span></td></tr>
+        <tr><td>DC-20</td><td>Appliances (stove, oven, extractor)</td><td class="r">R 45,000</td><td><span class="badge b-purple">Provisional Sum</span></td></tr>
+        <tr><td>DC-21</td><td>Glass balustrades</td><td class="r">R 110,000</td><td><span class="badge b-purple">Provisional Sum</span></td></tr>
+        <tr style="background:var(--gold-d)"><td></td><td style="font-weight:800;color:#8b6914">TOTAL DIRECT PACKAGES (Phase 1)</td><td class="r" style="font-weight:800;color:#8b6914">R 2,491,145</td><td></td></tr>
       </tbody>
     </table></div>
   </div>
-  <div class="card">
-    <div class="card-h"><h2>Provisional Sums (No Pricing Yet)</h2></div>
-    <div class="card-b" style="padding:0;overflow-x:auto;-webkit-overflow-scrolling:touch"><table>
-      <thead><tr><th>Bill 14</th><th>Description</th><th class="r">Provision (ex VAT)</th><th>Procurement Pack</th><th>Status</th></tr></thead>
-      <tbody>
-        <tr><td>PS-01</td><td>Ironmongery</td><td class="r">R 15,000</td><td>No</td><td><span class="badge b-purple">Provisional Sum</span></td></tr>
-        <tr><td>PS-02</td><td>Landscaping</td><td class="r">R 25,000</td><td>No</td><td><span class="badge b-purple">Provisional Sum</span></td></tr>
-        <tr><td>PS-03</td><td>Sanware/Brassware/Geysers</td><td class="r">R 30,000</td><td>No</td><td><span class="badge b-purple">Provisional Sum</span></td></tr>
-        <tr><td>PS-04</td><td>Mirrors &amp; Bathroom Accessories</td><td class="r">R 5,000</td><td>No</td><td><span class="badge b-purple">Provisional Sum</span></td></tr>
-        <tr><td>PS-05</td><td>Signage</td><td class="r">R 10,000</td><td>No</td><td><span class="badge b-purple">Provisional Sum</span></td></tr>
-        <tr><td>PS-06</td><td>Sewer</td><td class="r">R 15,000</td><td>No</td><td><span class="badge b-purple">Provisional Sum</span></td></tr>
-        <tr><td>PS-07</td><td>Feature Wall Signage</td><td class="r">R 5,000</td><td>No</td><td><span class="badge b-purple">Provisional Sum</span></td></tr>
-        <tr><td>PS-08</td><td>Stage</td><td class="r">R 40,000</td><td>Yes &#8212; Refer to Procurement Pack tab</td><td><span class="badge b-cyan">Pack Ready</span></td></tr>
-        <tr><td>PS-09</td><td>Sound &amp; Media Joinery</td><td class="r">R 30,000</td><td>Yes &#8212; Refer to Procurement Pack tab</td><td><span class="badge b-cyan">Pack Ready</span></td></tr>
-      </tbody>
-    </table></div>
-  </div>
+
   <div class="chart-grid">
-    <div class="chart-card"><h3>Package Split</h3><div class="chart-wrap"><canvas id="chartSubPie"></canvas></div></div>
-    <div class="chart-card"><h3>Subcontract vs Builder's Work</h3><div class="chart-wrap"><canvas id="chartSubVsBuilder"></canvas></div></div>
+    <div class="chart-card"><h3>Direct Package Split</h3><div class="chart-wrap"><canvas id="chartSubPie"></canvas></div></div>
+    <div class="chart-card"><h3>White Box vs Direct vs Phase 2</h3><div class="chart-wrap"><canvas id="chartSubVsBuilder"></canvas></div></div>
   </div>
 </div>
 
-<!-- ===================== PROCUREMENT PACKS ===================== -->
+<!-- ===================== PHASE 1: WHITE BOX PACKAGES ===================== -->
 <div class="panel" id="panel-packages">
-  <div class="mg" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr))">
-    <div class="m indigo"><div class="m-label">Tender Packs Available</div><div class="m-value">11</div><div class="m-sub">PDF tender docs + drawings as .zip</div></div>
-    <div class="m green"><div class="m-label">All Packages</div><div class="m-value" style="color:var(--green)">Ready</div><div class="m-sub">Actual tender packs as sent</div></div>
+  <div class="mg" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr))">
+    <div class="m indigo"><div class="m-label">White Box Total</div><div class="m-value">R 5,588,569</div><div class="m-sub">Phase 1 Main Contract</div></div>
+    <div class="m green"><div class="m-label">Selected Subs (via MC)</div><div class="m-value" style="color:var(--green)">3</div><div class="m-sub">Nominated through main contractor</div></div>
+    <div class="m gold"><div class="m-label">Tenderers</div><div class="m-value" style="color:#8b6914">6</div><div class="m-sub">Competitive tender &#8212; on hold</div></div>
   </div>
+
+  <div class="info-box" style="margin-bottom:16px">&#9888; <strong>Tender Status:</strong> Completed to Rev E &#8212; Issued for Tender. Client has decided to put tender on hold pending design changes (7 April 2026). All remaining items are measured in the BOQ &#8212; only the 3 packages below are selected/nominated subcontracts.</div>
+
+  <div class="card">
+    <div class="card-h"><h2>Selected Subcontract Packages &#8212; White Box</h2><span class="badge b-green">Nominated via Main Contractor</span></div>
+    <div class="card-b" style="padding:0;overflow-x:auto;-webkit-overflow-scrolling:touch"><table>
+      <thead><tr><th>Code</th><th>Trade</th><th>Scope</th><th class="r">PS Amount (ex VAT)</th><th>Type</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge b-indigo">NS-01</span></td><td><strong>Piling</strong></td><td>As per geotechnical recommendation (B24279) and structural design (STR Rev 5). Two-stage methodology &#8212; Stage 1: lower platform, Stage 2: upper platform after fill.</td><td class="r" style="font-weight:700">R 145,000</td><td><span class="badge b-cyan">Selected Sub</span></td><td><span class="badge b-gold">To Tender</span></td></tr>
+        <tr><td><span class="badge b-indigo">NS-02</span></td><td><strong>Bulk Earthworks &amp; Site Clearance</strong></td><td>Site clearing, cut and fill to platform levels, disposal of surplus material. Two mobilisations required due to split-level design.</td><td class="r" style="font-weight:700">R 150,000</td><td><span class="badge b-cyan">Selected Sub</span></td><td><span class="badge b-gold">To Tender</span></td></tr>
+        <tr><td><span class="badge b-indigo">NS-03</span></td><td><strong>Rainwater Goods</strong></td><td>Gutters, downpipes, complete rainwater system. Connect to stormwater attenuation.</td><td class="r" style="font-weight:700">R 40,000</td><td><span class="badge b-cyan">Selected Sub</span></td><td><span class="badge b-gold">To Tender</span></td></tr>
+        <tr style="background:var(--gold-d)"><td></td><td colspan="2" style="font-weight:800;color:#8b6914">Total Selected Subcontract PS</td><td class="r" style="font-weight:800;color:#8b6914">R 335,000</td><td colspan="2"></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><h2>Other White Box Provisional Sums</h2><span class="badge b-indigo">Included in BOQ</span></div>
+    <div class="card-b" style="padding:0;overflow-x:auto;-webkit-overflow-scrolling:touch"><table>
+      <thead><tr><th>Ref</th><th>Description</th><th class="r">Amount (ex VAT)</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>C21</td><td>Brick retaining wall &#8212; garden</td><td class="r">R 200,000</td><td><span class="badge b-purple">Provisional Sum</span></td></tr>
+        <tr><td>C28</td><td>Bulk earthworks &amp; site clearance (balance)</td><td class="r">R 100,000</td><td><span class="badge b-purple">Provisional Sum</span></td></tr>
+        <tr><td>C30</td><td>Stormwater attenuation tank</td><td class="r">R 60,000</td><td><span class="badge b-purple">Provisional Sum</span></td></tr>
+        <tr><td>C20</td><td>Paving at main entrance</td><td class="r">R 20,000</td><td><span class="badge b-purple">Provisional Sum</span></td></tr>
+        <tr><td>C31/32</td><td>Profit &amp; attendance on PS (5%)</td><td class="r">R 56,500</td><td><span class="badge b-indigo">Included</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><h2>Tender Document &amp; Key References</h2><span class="badge b-green">Rev E &#8212; 7 April 2026</span></div>
+    <div class="card-b">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
+        <div style="background:var(--elevated);border:1px solid var(--border);border-radius:var(--r);padding:24px;text-align:center"><div style="font-size:2rem;margin-bottom:8px;opacity:0.4">&#128196;</div><div style="font-weight:700;font-size:0.85rem;margin-bottom:4px">Tender Document Rev E</div><div style="font-size:0.72rem;color:var(--muted);margin-bottom:14px">JBCC PBA 6.2 &#8212; 22 sections complete</div><a href="#" onclick="downloadFile('ME401/contract/House_Mansfield_Tender_Document_Rev_E.docx','House_Mansfield_Tender_Document_Rev_E.docx');return false;" class="btn btn-download btn-sm">Download</a></div>
+        <div style="background:var(--elevated);border:1px solid var(--border);border-radius:var(--r);padding:24px;text-align:center"><div style="font-size:2rem;margin-bottom:8px;opacity:0.4">&#128200;</div><div style="font-weight:700;font-size:0.85rem;margin-bottom:4px">White Box BOQ (Phase 1)</div><div style="font-size:0.72rem;color:var(--muted);margin-bottom:14px">Stage 4 Budget &#8212; R 5,588,569</div><a href="#" onclick="downloadFile('ME401/contract/House_Mansfield_White_Box_Phase1.pdf','House_Mansfield_White_Box_Phase1.pdf');return false;" class="btn btn-download btn-sm">Download</a></div>
+        <div style="background:var(--elevated);border:1px solid var(--border);border-radius:var(--r);padding:24px;text-align:center"><div style="font-size:2rem;margin-bottom:8px;opacity:0.4">&#127758;</div><div style="font-weight:700;font-size:0.85rem;margin-bottom:4px">Geotechnical Report</div><div style="font-size:0.72rem;color:var(--muted);margin-bottom:14px">B24279 &#8212; EcoStruKt / Kelvin Nair</div><a href="#" onclick="downloadFile('ME401/contract/B24279_Geotech_report.pdf','B24279_Geotech_report.pdf');return false;" class="btn btn-download btn-sm">Download</a></div>
+        <div style="background:var(--elevated);border:1px solid var(--border);border-radius:var(--r);padding:24px;text-align:center"><div style="font-size:2rem;margin-bottom:8px;opacity:0.4">&#9888;</div><div style="font-weight:700;font-size:0.85rem;margin-bottom:4px">H&amp;S Specification</div><div style="font-size:0.72rem;color:var(--muted);margin-bottom:14px">Extreme Safety Rev04 &#8212; April 2026</div><a href="#" onclick="downloadFile('ME401/contract/House_Mansfield_HS_Specification.pdf','House_Mansfield_HS_Specification.pdf');return false;" class="btn btn-download btn-sm">Download</a></div>
+      </div>
+    </div>
+  </div>
+
   <div class="pkg-grid" id="pkgCards"></div>
+</div>
+
+<!-- ===================== PHASE 2: FUTURE PACKAGES ===================== -->
+<div class="panel" id="panel-phase2pkg">
+  <div class="mg" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr))">
+    <div class="m purple"><div class="m-label">Phase 2 Total</div><div class="m-value">R 1,767,162</div><div class="m-sub">Deferred scope</div></div>
+    <div class="m indigo"><div class="m-label">Provisional Sums</div><div class="m-value">R 910,250</div><div class="m-sub">Future procurement packages</div></div>
+    <div class="m gold"><div class="m-label">Status</div><div class="m-value" style="color:#8b6914;font-size:1rem">DEFERRED</div><div class="m-sub">Not part of current tender</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><h2>Phase 2 &#8212; Deferred Work Packages</h2><span class="badge b-purple">Not in current tender scope</span></div>
+    <div class="card-b" style="padding:0;overflow-x:auto;-webkit-overflow-scrolling:touch"><table>
+      <thead><tr><th>Description</th><th class="r">Amount (ex VAT)</th><th>Category</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr class="section-header"><td colspan="4">Measured Trades (Phase 2)</td></tr>
+        <tr><td>Preliminaries &amp; General</td><td class="r">R 300,000</td><td>P&amp;G</td><td><span class="badge b-purple">Deferred</span></td></tr>
+        <tr><td>Masonry</td><td class="r">R 39,662</td><td>Building</td><td><span class="badge b-purple">Deferred</span></td></tr>
+        <tr><td>Waterproofing</td><td class="r">R 9,920</td><td>Building</td><td><span class="badge b-purple">Deferred</span></td></tr>
+        <tr><td>Carpentry &amp; Joinery</td><td class="r">R 43,675</td><td>Building</td><td><span class="badge b-purple">Deferred</span></td></tr>
+        <tr><td>Ceilings</td><td class="r">R 50,945</td><td>Building</td><td><span class="badge b-purple">Deferred</span></td></tr>
+        <tr><td>Structural Steelwork</td><td class="r">R 82,350</td><td>Building</td><td><span class="badge b-purple">Deferred</span></td></tr>
+        <tr><td>Metalwork (Aluminium &#8212; Lower Ground)</td><td class="r">R 119,000</td><td>Building</td><td><span class="badge b-purple">Deferred</span></td></tr>
+        <tr><td>Plastering</td><td class="r">R 45,030</td><td>Building</td><td><span class="badge b-purple">Deferred</span></td></tr>
+        <tr><td>Tiling</td><td class="r">R 80,250</td><td>Building</td><td><span class="badge b-purple">Deferred</span></td></tr>
+        <tr><td>Plumbing &amp; Drainage</td><td class="r">R 60,000</td><td>Building</td><td><span class="badge b-purple">Deferred</span></td></tr>
+        <tr><td>Paintwork</td><td class="r">R 26,080</td><td>Building</td><td><span class="badge b-purple">Deferred</span></td></tr>
+        <tr class="section-header"><td colspan="4">Provisional Sums (Phase 2)</td></tr>
+        <tr><td>Kitchenette &#8212; Guest Flatlet</td><td class="r">R 25,000</td><td>PS</td><td><span class="badge b-purple">Future</span></td></tr>
+        <tr><td>Kitchen &#8212; Guest Flatlet</td><td class="r">R 50,000</td><td>PS</td><td><span class="badge b-purple">Future</span></td></tr>
+        <tr><td>Electrical (Phase 2 balance)</td><td class="r">R 55,000</td><td>PS</td><td><span class="badge b-purple">Future</span></td></tr>
+        <tr><td>Light Fittings (Phase 2)</td><td class="r">R 5,000</td><td>PS</td><td><span class="badge b-purple">Future</span></td></tr>
+        <tr><td>Plugs &amp; Switches (Phase 2)</td><td class="r">R 5,000</td><td>PS</td><td><span class="badge b-purple">Future</span></td></tr>
+        <tr><td>Ironmongery (Phase 2)</td><td class="r">R 5,000</td><td>PS</td><td><span class="badge b-purple">Future</span></td></tr>
+        <tr><td>Built-in Cupboards (Phase 2)</td><td class="r">R 30,000</td><td>PS</td><td><span class="badge b-purple">Future</span></td></tr>
+        <tr><td>Landscaping (Phase 2 balance)</td><td class="r">R 70,000</td><td>PS</td><td><span class="badge b-purple">Future</span></td></tr>
+        <tr><td>Sanware/Brassware (Phase 2)</td><td class="r">R 60,000</td><td>PS</td><td><span class="badge b-purple">Future</span></td></tr>
+        <tr><td>Bathroom Accessories (Phase 2)</td><td class="r">R 5,000</td><td>PS</td><td><span class="badge b-purple">Future</span></td></tr>
+        <tr><td>Shower Doors (Phase 2)</td><td class="r">R 15,000</td><td>PS</td><td><span class="badge b-purple">Future</span></td></tr>
+        <tr><td>Mirrors (Phase 2)</td><td class="r">R 2,500</td><td>PS</td><td><span class="badge b-purple">Future</span></td></tr>
+        <tr><td>Pool Structure &amp; Installation (Fibreglass)</td><td class="r">R 100,000</td><td>PS</td><td><span class="badge b-purple">Future</span></td></tr>
+        <tr><td>Timber Sliding Screens</td><td class="r">R 150,000</td><td>PS</td><td><span class="badge b-purple">Future</span></td></tr>
+        <tr><td>Pergolas (Timber)</td><td class="r">R 200,000</td><td>PS</td><td><span class="badge b-purple">Future</span></td></tr>
+        <tr><td>Fire Pit</td><td class="r">R 50,000</td><td>PS</td><td><span class="badge b-purple">Future</span></td></tr>
+        <tr><td>Profit &amp; Attendance on PS</td><td class="r">R 82,750</td><td>P&amp;A</td><td><span class="badge b-indigo">Included</span></td></tr>
+        <tr style="background:var(--gold-d)"><td style="font-weight:800;color:#8b6914">TOTAL PHASE 2</td><td class="r" style="font-weight:800;color:#8b6914">R 1,767,162</td><td colspan="2"></td></tr>
+      </tbody>
+    </table></div>
+  </div>
 </div>
 
 <!-- ===================== UPLOAD PRICING ===================== -->
@@ -557,11 +663,11 @@ footer { text-align: center; padding: 20px; font-size: 0.64rem; color: var(--mut
   <div class="card">
     <div class="card-h"><h2>Upload Revised Pricing</h2></div>
     <div class="card-b">
-      <p style="margin-bottom:16px;font-size:0.82rem;color:var(--muted)">Subcontractors and the Church can upload revised quotations for each package.</p>
+      <p style="margin-bottom:16px;font-size:0.82rem;color:var(--muted)">Subcontractors and consultants can upload quotations and documents for each package.</p>
       <div style="margin-bottom:16px">
         <label style="font-size:0.7rem;font-weight:600;display:block;margin-bottom:6px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Select Package</label>
         <select id="uploadPkg" style="padding:10px 14px;border:1px solid var(--border-b);border-radius:4px;width:100%;max-width:400px;font-size:0.82rem;background:#fff;color:var(--text);font-family:inherit;outline:none">
-          <option>SP-01: Timber Deck &amp; Staircase</option><option>SP-02: Roof Structure</option><option>SP-03: Aluminium Windows &amp; Doors</option><option>SP-05: Metal Palisade / Gate</option><option>SP-06: Metal Balustrades</option><option>SP-07: Rainwater Goods</option><option>SP-08: Carpets</option><option>SP-09: Specialist Floor Screeds</option><option>SP-11: Electrical Installation</option><option>SP-12: Stage Construction</option><option>SP-13: Sound &amp; Media Joinery</option><option>NEW: Sound Installation</option><option>NEW: Air Conditioning</option><option>NEW: Kitchen Fit-out</option><option>NEW: Chairs / Seating</option>
+          <option>NS-01: Piling</option><option>NS-02: Bulk Earthworks</option><option>NS-03: Rainwater Goods</option><option>DC-01: Electrical Installation</option><option>DC-02: Plumbing Installation</option><option>DC-03: HVAC / Air-Conditioning</option><option>DC-04: Ceilings</option><option>DC-06: Tiling</option><option>DC-08: Paintwork</option><option>DC-10: Kitchen</option><option>DC-12: Sanware</option><option>DC-21: Glass Balustrades</option><option>OTHER: General Document</option>
         </select>
       </div>
       <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
@@ -1193,11 +1299,22 @@ try {
     new Chart(document.getElementById('chartTrades'), {type:'bar',data:{labels:bills.map(b=>'Bill '+b.id),datasets:[{data:bills.map(b=>b.amt),backgroundColor:bills.map(b=>b.color),borderRadius:4,barThickness:18}]},options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>R(ctx.raw)}}},scales:{x:{ticks:{callback:v=>'R'+(v/1000).toFixed(0)+'k'},grid:{color:'rgba(0,0,0,0.04)'}},y:{grid:{display:false},ticks:{font:{size:9}}}}}});
   }
 
-  const subData = [];
-  if (subData.length > 0) {
-    new Chart(document.getElementById('chartSubPie'), {type:'doughnut',data:{labels:subData.map(s=>s.n),datasets:[{data:subData.map(s=>s.a),backgroundColor:subData.map(s=>s.c),borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'45%',plugins:{legend:{position:'right',labels:{padding:8,usePointStyle:true,pointStyleWidth:6,font:{size:9}}},tooltip:{callbacks:{label:ctx=>ctx.label+': '+R(ctx.raw)}}}}});
-    new Chart(document.getElementById('chartSubVsBuilder'), {type:'doughnut',data:{labels:["Builder's Measured",'Subcontract','Provisional Sums','External Works','Preliminaries'],datasets:[{data:[0,0,0,0,0],backgroundColor:['#0891b2','#dc2626','#c8a84e','#7c3aed','#4a5568'],borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'50%',plugins:{legend:{position:'right',labels:{padding:8,usePointStyle:true,pointStyleWidth:6,font:{size:9}}}}}});
-  }
+  // Direct package breakdown
+  const subData=[
+    {n:'Electrical',a:220000,c:'#4a5568'},
+    {n:'Plumbing',a:164180,c:'#0891b2'},
+    {n:'HVAC',a:150000,c:'#06b6d4'},
+    {n:'Ceilings',a:420410,c:'#16a34a'},
+    {n:'Tiling',a:188550,c:'#22c55e'},
+    {n:'Kitchen',a:275000,c:'#c8a84e'},
+    {n:'Sanware',a:180000,c:'#d97706'},
+    {n:'Paintwork',a:97890,c:'#ea580c'},
+    {n:'Balustrades',a:110000,c:'#7c3aed'},
+    {n:'Other',a:684865,c:'#64748b'}
+  ];
+  new Chart(document.getElementById('chartSubPie'), {type:'doughnut',data:{labels:subData.map(s=>s.n),datasets:[{data:subData.map(s=>s.a),backgroundColor:subData.map(s=>s.c),borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'45%',plugins:{legend:{position:'right',labels:{padding:8,usePointStyle:true,pointStyleWidth:6,font:{size:9}}},tooltip:{callbacks:{label:ctx=>ctx.label+': '+R(ctx.raw)}}}}});
+
+  new Chart(document.getElementById('chartSubVsBuilder'), {type:'doughnut',data:{labels:['White Box (Phase 1)','Direct Packages (Phase 1)','Phase 2 (Deferred)'],datasets:[{data:[5588569,2491145,1767162],backgroundColor:['#4a5568','#c8a84e','#7c3aed'],borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'50%',plugins:{legend:{position:'right',labels:{padding:8,usePointStyle:true,pointStyleWidth:6,font:{size:9}}},tooltip:{callbacks:{label:ctx=>ctx.label+': '+R(ctx.raw)+' ('+pct(ctx.raw,9846876)+')'}}}}});
 
   const billKeysForChart = Object.keys(billComparison);
   if (billKeysForChart.length > 0) {
