@@ -344,11 +344,11 @@ footer { text-align: center; padding: 20px; font-size: 0.64rem; color: var(--mut
 
 <div class="nav" id="mainNav">
   <div class="nav-item">
-    <button class="nav-btn" onclick="toggleDrop(this)">Contract Price <span class="arrow">&#9662;</span></button>
+    <button class="nav-btn" onclick="toggleDrop(this)">Contract Budget <span class="arrow">&#9662;</span></button>
     <div class="nav-dropdown">
-      <button class="nav-drop-item active" onclick="navTo('summary',this)">Build Breakdown</button>
-      <button class="nav-drop-item" onclick="navTo('revised',this)">Revised vs Original</button>
-      <button class="nav-drop-item" onclick="navTo('submission',this)">Original Submission</button>
+      <button class="nav-drop-item active" onclick="navTo('summary',this)">Budget Overview</button>
+      <button class="nav-drop-item" onclick="navTo('revised',this)">Budget Evolution</button>
+      <button class="nav-drop-item" onclick="navTo('submission',this)">Tender Documentation</button>
     </div>
   </div>
   <div class="nav-item">
@@ -461,7 +461,7 @@ footer { text-align: center; padding: 20px; font-size: 0.64rem; color: var(--mut
   </div>
   <div class="card">
     <div class="card-h">
-      <h2>Original vs Revised &#8212; Full BOQ Line Items</h2>
+      <h2>Budget Evolution &#8212; Old Phase 1 vs Revised Phase 1</h2>
       <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
         <select id="revBillFilter" onchange="renderRevised()" style="padding:7px 12px;border:1px solid var(--border-b);border-radius:4px;font-size:0.76rem;background:#fff;color:var(--text);font-family:inherit;outline:none">
           <option value="all">All Trades</option>
@@ -476,7 +476,7 @@ footer { text-align: center; padding: 20px; font-size: 0.64rem; color: var(--mut
   </div>
   <div class="card" style="margin-top:16px"><div class="card-h"><h2>Grand Total Reconciliation</h2></div><div class="card-b" style="padding:0"><table><thead><tr><th></th><th class="r">Original</th><th class="r">Revised</th><th class="r">Saving</th><th class="r">%</th></tr></thead><tbody id="revisedSummaryBody"></tbody></table></div></div>
   <div class="chart-grid" style="margin-top:16px">
-    <div class="chart-card"><h3>Original vs Revised by Bill</h3><div style="position:relative;height:400px"><canvas id="chartRevised"></canvas></div></div>
+    <div class="chart-card"><h3>Budget Evolution by Trade</h3><div style="position:relative;height:400px"><canvas id="chartRevised"></canvas></div></div>
     <div class="chart-card"><h3>Revised Grand Total Waterfall</h3><div style="position:relative;height:400px"><canvas id="chartRevisedWaterfall"></canvas></div></div>
   </div>
 </div>
